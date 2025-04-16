@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Mappa {
+public class Caratteristiche {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
