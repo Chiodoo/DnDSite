@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,14 +27,14 @@ public class Campagna {
     private String descrizione;
 
     @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "idCampagna")
+    @JoinColumn(name = "id_Campagna")
     private List<Nota> note;
 
     @ManyToMany(mappedBy = "campagne")
     private List<Personaggio> personaggi;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "idCampagna")
+    @OneToMany(cascade={CascadeType.MERGE})
+    @JoinColumn(name = "id_Campagna")
     private List<Mappa> mappe;
 
     @ManyToOne

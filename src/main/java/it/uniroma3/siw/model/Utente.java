@@ -18,6 +18,6 @@ public class Utente {
     private Long id;
 
     @OneToMany(cascade={CascadeType.REMOVE})
-    @JoinColumn(name = "idUtente")
+    @JoinColumn(name = "id_Utente")
     private List<Personaggio> personaggi;
 }
