@@ -28,20 +28,31 @@ public class Campagna {
     private String descrizione;
 
     @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "id_campagna")
+    @JoinColumn(name = "idCampagna")
     private List<Nota> note;
 
     @ManyToMany(mappedBy = "campagne")
     private List<Personaggio> personaggi;
 
     @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "id_campagna")
+    @JoinColumn(name = "idCampagna")
     private List<Mappa> mappe;
 
     @ManyToOne
     private Master master;
 
+    @ManyToMany(mappedBy = "campagne")
+    private List<Giocatore> giocatori;
+
     //==========================METHODS=============================================
+
+    public List<Giocatore> getGiocatori() {
+        return giocatori;
+    }
+
+    public void setGiocatori(List<Giocatore> giocatori) {
+        this.giocatori = giocatori;
+    }
 
     public Long getId() {
         return id;
