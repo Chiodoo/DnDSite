@@ -126,4 +126,12 @@ public class Campagna {
         return true;
     }
 
+    public Master getMaster() {
+        return master;
+    }
+
+    public void setMaster(Master master) {
+        this.master = master;
+    }
+
 }
