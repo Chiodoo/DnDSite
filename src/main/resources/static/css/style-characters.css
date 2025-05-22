@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Goldman';
+    background-color: rgb(255, 255, 255);
+    color: white;
+}
+nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(18, 1, 20, 0.8);
+}
+#nav_item{
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    margin: 0 20px;
+}
+#nav_item:hover{
+    color: rgb(241, 133, 8);
+    text-decoration: underline;
+    text-underline-offset: 100%;
+    text-decoration-thickness: 2px;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+header{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgb(70, 42, 42);
+    height: 60vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+button{
+    background-color: rgb(18, 1, 20, 0.7);
+    color: white;
+    border: none;
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    align-self: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+button:hover{
+    background-color: rgb(241, 133, 8, 0.7);
+    color: rgb(255, 255, 255);
+}
+section{
+    display: flex;
+    flex-direction: inline;
+    align-items: center;
+    justify-content: center;
+    border-top: 3px solid rgb(241, 133, 8); /* linea divisoria sopra la section */
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    margin: 20px;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    margin: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    box-shadow: rgb(0, 0, 0, 0.3) 1px 3px 5px;
+    border-radius: 5px;
+}
+.box:hover{
+    background-color: rgba(241, 241, 241, 0.9);
+}
+#character{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
