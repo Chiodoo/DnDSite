@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it">    
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scheda Personaggio</title>
-    <link rel="stylesheet" href="/css/style-homePage.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style-homePage.css"/>
 </head>
 <body>
-
-    <div class="navbar">
-        <a id="char" href="/character">Personaggi</a>
-        <a id="note" href="/note">Note</a>
-        <a id="map" href="/map">Mappe</a>  
-    </div>
-    <div class="titolo">
-        <h1>Dnd Site</h1>
-    </div>
-    <section>   
-        <h3>Clicca qui per creare la nuova campagna</h3>
-        <div class="contenitore">
-            <a id="campagna" href="/campagna">Crea Campagna</a>
-        </div>
-    </section>
-        
+    <nav>
+        <a id="nav_item" href="/homePage.html">Home</a>
+        <a id="nav_item" href="/characters">Characters</a>
+        <a id="nav_item" href="/note">Note</a>
+        <a id="nav_item" href="/map">Map</a>
+        <a id="nav_item" href="/profilo">Profilo</a>
+    </nav>
+    <header>
+        <h1>Clicca per creare una nuova campagna</br>
+             o rivedere una tua campagna passata</h1>
+        <button onclick="window.location.href='creaCampagna.html'">Crea una nuova campagna</button>
+        <button onclick="window.location.href='Campagne.html'">Rivedi una campagna passata</button>
+    </header>
+    <section>
+        <h3>Esempio di campagna</h3>
+        <p>
+            Nome della campagna: La ricerca del tesoro perduto<br />
+            Giocatori: Mario, Luigi, Peach<br />
+            Descrizione: Un'avventura epica alla ricerca di un tesoro leggendario nascosto in una 
+            caverna misteriosa.
+        </p>
 </body>
 </html>
