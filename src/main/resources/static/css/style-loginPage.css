@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    color: #fff;
+    font-family: 'Goldamn';
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.pinimg.com/736x/9e/cc/f9/9eccf965930b4cb3b8fdef2bea4a13d1.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    z-index: -1;
+}
+
+.container{
+    font-family: 'Goldamn';
+    background: linear-gradient(135deg, rgba(46, 32, 48, 0.7), rgba(22, 11, 24, 0.7)); /* Gradiente dall'alto a sinistra */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 50vw;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+h1{
+    font-family: 'Goldman';
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: white;
+}
+#dati{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    width: 50%;
+    border: none;
+    background-color: rgba(43, 36, 44, 0.7);
+    padding: 20px;
+    margin: 5px;
+    color: rgb(255, 255, 255, 0.7);
+    border-radius: 20px;
+}
+#dati:hover{
+    background-color: rgba(75, 65, 77, 0.7);
+    color: rgb(255, 255, 255);
+}
+button{
+    background-color: rgb(22, 11, 24, 0.7);
+    color: white;
+    border: none;
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    align-self: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+button:hover{
+    background-color: rgba(62, 49, 65, 0.7);
+    color: rgb(255, 255, 255);
+}
+
+p{
+    font-family: 'Goldman';
+}
+a{
+
+    color: rgb(195, 155, 211);
+}

@@ -9,8 +9,8 @@ public class webController {
 
     @GetMapping("/")
     public String getHomePage() {
-        return "homePage.html";
+        return "index.html";
     }
     
-
+    
 }
