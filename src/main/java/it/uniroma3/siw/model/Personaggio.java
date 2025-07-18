@@ -43,17 +43,17 @@ public class Personaggio {
     private List<Campagna> campagne;
 
     @ManyToOne
-    private Utente utente;
+    private User user;
 
 
     //==========================METHODS=============================================
 
-    public Utente getUtente() {
-        return utente;
+    public User getUser() {
+        return user;
     }
 
-    public void setUtente(Utente utente) {
-        this.utente = utente;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {
