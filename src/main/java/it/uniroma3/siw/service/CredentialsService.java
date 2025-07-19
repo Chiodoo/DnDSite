@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.repository.CredentialsRepository;
+import it.uniroma3.siw.security.SecurityUtils;
 
 @Service
 public class CredentialsService {
@@ -18,6 +19,9 @@ public class CredentialsService {
 
     @Autowired
     protected CredentialsRepository credentialsRepository;
+
+    @Autowired
+    protected SecurityUtils securityUtils;
 
     @Transactional
     public Credentials getCredentials(Long id) {
@@ -34,6 +38,11 @@ public class CredentialsService {
     @Transactional(readOnly = true)
     public Optional<Credentials> findById(Long id) {
         return credentialsRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Credentials> findByUserId(Long id) {
+        return credentialsRepository.findByUserId(id);
     }
 
     @Transactional(readOnly = true)
@@ -60,5 +69,23 @@ public class CredentialsService {
         }
 
         return credentialsRepository.save(credentials);
+    }
+
+    @Transactional
+    public void changeToGiocatore() {
+        Credentials credentials = this.findByUserId(this.securityUtils.getCurrentUser().getId()).orElse(null);
+        if (credentials != null) {
+            credentials.setRole(Credentials.GIOCATORE_ROLE);
+            this.saveCredentials(credentials);
+        }
+    }
+
+    @Transactional
+    public void changeToMaster() {
+        Credentials credentials = this.findByUserId(this.securityUtils.getCurrentUser().getId()).orElse(null);
+        if (credentials != null) {
+            credentials.setRole(Credentials.MASTER_ROLE);
+            this.saveCredentials(credentials);
+        }
     }
 }

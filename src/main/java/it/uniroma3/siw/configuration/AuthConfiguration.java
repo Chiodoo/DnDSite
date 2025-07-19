@@ -17,6 +17,8 @@ import it.uniroma3.siw.security.CustomOAuth2UserService;
 import it.uniroma3.siw.security.CustomOidcUserService;
 
 import static it.uniroma3.siw.model.Credentials.ADMIN_ROLE;
+import static it.uniroma3.siw.model.Credentials.GIOCATORE_ROLE;
+import static it.uniroma3.siw.model.Credentials.MASTER_ROLE;
 
 import javax.sql.DataSource;
 
@@ -58,6 +60,10 @@ public class AuthConfiguration {
                 .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                 // Area amministrativa solo per admin
                 .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
+                // Area autenticata per giocatori
+                .requestMatchers("/logged/giocatore/**").hasAuthority(GIOCATORE_ROLE)
+                // Area autenticata per master
+                .requestMatchers("/logged/master/**").hasAuthority(MASTER_ROLE)
                 // Tutte le altre richieste devono essere autenticate
                 .anyRequest().authenticated()
             )
