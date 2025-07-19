@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style-register.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Registrati</h1>
+        <form th:action="@{/register}" method="post">
+           <div class="input-group" th:object="${user}">
+                <label for="name">Nome:</label>
+                <span><input type="text" id="name" placeholder="name" required th:field="*{name}" /></span>
+                <span th:if="${#fields.hasErrors('name')}" class="error-message">
+                    <p th:errors="*{name}">Nome non valido</p></span>
+            </div>
+            <div class="input-group" th:object="${user}">
+                <label for="surname">Cognome:</label>
+                <span><input type="text" id="surname" placeholder="surname" required th:field="*{surname}" /></span>
+                <span th:if="${#fields.hasErrors('surname')}" class="error-message">
+                    <p th:errors="*{surname}">Cognome non valido</p></span>
+            </div>
+            <div class="input-group" th:object="${user}">
+                <label for="email">Email:</label>
+                <span><input type="email" id="email" placeholder="email" required th:field="*{email}" /></span>
+                <span th:if="${#fields.hasErrors('email')}" class="error-message">
+                    <p th:errors="*{email}">Email non valida</p></span>
+            </div>
+            <div class="input-group" th:object="${user}">
+                <label for="birthDate">Data di Nascita:</label>
+                <span><input type="date" id="birth" placeholder="birth" required th:field="*{birth}" /></span>
+                <span th:if="${#fields.hasErrors('birth')}" class="error-message">
+                    <p th:errors="*{birth}">Data di nascita non valida</p></span>
+            </div>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <span><input type="text" id="username" placeholder="username" required th:field="*{credentials.username}" /></span>
+                <span th:if="${#fields.hasErrors('credentials.username')}" class="error-message">
+                    <p th:errors="*{credentials.username}">Username non valido</p></span>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <span><input type="password" id="password" placeholder="password" required th:field="*{credentials.password}" /></span>
+                <span th:if="${#fields.hasErrors('credentials.password')}" class="error-message">
+                    <p th:errors="*{credentials.password}">Password non valida</p></span>
+            </div>
+            <div class="input-group">
+                <label for="image">Immagine Utente</label>
+                <span><input type="file" name="profileImage" id="image" accept="image/*" /></span>
+            </div>
+            <button type="submit">Registrati</button>
+        </form>
+        <p>Hai già un account? <a href="/login">Accedi</a></p>
+    </div>
+</body>
+</html>

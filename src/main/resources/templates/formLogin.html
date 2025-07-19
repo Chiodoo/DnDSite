@@ -4,15 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Login</title>
-    <link rel="stylesheet" href="/css/style-loginPage.css"/>
+    <link rel="stylesheet" href="/css/style-login.css"/>
 </head>
 <body>
     <div class="container">
         <h1>Accedi</h1>
-        <input type="text" id="dati" placeholder="Nome utente" required />
-        <input type="password" id="dati" placeholder="Password" required />
-        <button id="loginButton">Accedi</button>
-        <p>Non hai un account? <a href="/register">Registrati</a></p>
+        <div class="form-box">
+        <form th:action="@{/login}" method="POST">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div> <span th:if="${param.error !=null}">Username o password errati</span></div>
+            <button type="submit">Accedi</button>
+        </form>
+        <p>Non hai un account? <a th:href="@{/register}">Registrati</a></p>
+        </div>
     </div>
 </body>
 </html>
