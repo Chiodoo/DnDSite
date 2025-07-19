@@ -20,10 +20,9 @@ body::before {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('https://i.pinimg.com/736x/9e/cc/f9/9eccf965930b4cb3b8fdef2bea4a13d1.jpg');
+    background-image: url('/images/Avventuriero.png');
     background-size: cover;
     background-position: center;
-    filter: blur(2px);
     z-index: -1;
 }
 
@@ -36,7 +35,7 @@ body::before {
     justify-content: center;
     height: 100vh;
     width: 50vw;
-    border-radius: 20px;
+    border-radius: 0 20px 20px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -127,7 +126,7 @@ a:hover {
 /* Chrome, Edge, Safari */
 input[type="file"]::-webkit-file-upload-button {
   background: rgba(22, 11, 24, 1);
-  color: #fff;
+  color: #ffffff;
   border: none;
   padding: 0.5em 1em;
   border-radius: 4px;
@@ -149,5 +148,5 @@ input[type="file"]::file-selector-button {
   font: inherit;
 }
 input[type="file"]::file-selector-button:hover {
-  background: rgba(62, 49, 65, 0.9);
+  background: rgba(62, 49, 65, 0.7);
 }
