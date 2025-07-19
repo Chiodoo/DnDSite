@@ -13,6 +13,9 @@
         <button onclick="window.location.href='/register'">Registrati</button>
     </header>
     <section>
+        <div th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                </div>
         <h3>Cosa fa questo sito?</h3>
         <p>
             Questo sito è un'applicazione web progettata per aiutare i giocatori di giochi di 

@@ -3,13 +3,13 @@ package it.uniroma3.siw.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.repository.CredentialsRepository;
-import it.uniroma3.siw.security.SecurityUtils;
 
 @Service
 public class CredentialsService {
@@ -19,9 +19,6 @@ public class CredentialsService {
 
     @Autowired
     protected CredentialsRepository credentialsRepository;
-
-    @Autowired
-    protected SecurityUtils securityUtils;
 
     @Transactional
     public Credentials getCredentials(Long id) {
@@ -71,21 +68,21 @@ public class CredentialsService {
         return credentialsRepository.save(credentials);
     }
 
-    @Transactional
-    public void changeToGiocatore() {
-        Credentials credentials = this.findByUserId(this.securityUtils.getCurrentUser().getId()).orElse(null);
-        if (credentials != null) {
-            credentials.setRole(Credentials.GIOCATORE_ROLE);
-            this.saveCredentials(credentials);
-        }
+ @Transactional
+    public void changeToGiocatore(Long userId) {
+        Credentials credentials = findByUserId(userId)
+            .orElseThrow(() -> new UsernameNotFoundException(
+                "Credenziali non trovate per userId=" + userId));
+        credentials.setRole(Credentials.GIOCATORE_ROLE);
+        saveCredentials(credentials);
     }
 
     @Transactional
-    public void changeToMaster() {
-        Credentials credentials = this.findByUserId(this.securityUtils.getCurrentUser().getId()).orElse(null);
-        if (credentials != null) {
-            credentials.setRole(Credentials.MASTER_ROLE);
-            this.saveCredentials(credentials);
-        }
+    public void changeToMaster(Long userId) {
+        Credentials credentials = findByUserId(userId)
+            .orElseThrow(() -> new UsernameNotFoundException(
+                "Credenziali non trovate per userId=" + userId));
+        credentials.setRole(Credentials.MASTER_ROLE);
+        saveCredentials(credentials);
     }
 }
