@@ -26,7 +26,7 @@ public class IndexController {
 		if(this.authorizationService.isAdmin()) {
 			return "admin/indexAdmin";
 		}
-		return "index";
+		return "logged/success";
     }
     
 }
