@@ -126,7 +126,7 @@ a:hover {
 }
 /* Chrome, Edge, Safari */
 input[type="file"]::-webkit-file-upload-button {
-  background: rgba(22, 11, 24, 0.7);
+  background: rgba(22, 11, 24, 1);
   color: #fff;
   border: none;
   padding: 0.5em 1em;
@@ -140,7 +140,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
 /* Firefox Quantum+ */
 input[type="file"]::file-selector-button {
-  background: #5A3E85;
+  background: rgba(22, 11, 24, 1);
   color: #fff;
   border: none;
   padding: 0.5em 1em;
@@ -149,5 +149,5 @@ input[type="file"]::file-selector-button {
   font: inherit;
 }
 input[type="file"]::file-selector-button:hover {
-  background: #4a2f6a;
+  background: rgba(62, 49, 65, 0.9);
 }
