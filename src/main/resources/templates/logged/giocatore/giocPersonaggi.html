@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style_personaggi.css">
+    <title>Personaggi</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/images/logo_DndSite.png" alt="Logo DndSite">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/logged/giocatoreIndex">Home</a></li>
+                <li><a href="/logged/giocatore/campagna">Campagne</a></li>
+                <li><a href="/logged/giocatore/personaggio">Personaggi</a></li>
+                <li><a href="/account">Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <section class="description">
+            <h1>Lista dei Personaggi</h1>
+            <p class="summary">
+                Qui puoi visualizzare tutti i personaggi creati. Clicca su un personaggio per visualizzarne i dettagli.
+            </p>
+            <a th:href="@{/logged/giocatore/formNewPersonaggio}" >Aggiungi un nuovo personaggio</a>
+        </section>     
+    <div class="personaggio-list">
+        <div class="personaggio-card" th:each="personaggio : ${personaggi}">
+            <a th:href="@{'/logged/giocatore/personaggio' + '/'+ ${personaggio.id}}">
+                <!--Mostra l'immagine se esiste-->
+                <img th:if="${personaggio.image != null and personaggio.image.path != null}"
+                     th:src="@{'/uploads/' + ${personaggio.image.path}}"
+                     alt="Foto di [[${personaggio.title}]]"
+                     class="personaggio-image">
+                <!--Immagine placeholder se nessuna immagine è presente-->
+                <img th:if="${personaggio.image == null or personaggio.image.path == null}"
+                     src="/images/default_personaggio.jpg"
+                     alt="Nessuna immagine disponibile"
+                     class="personaggio-image">
+                <h2 th:text="${personaggio.nome}">Nome</h2>
+            </a>
+        </div>
+    </div>
+
+    <div id="no-personaggio" th:if="${personaggi.isEmpty()}">
+        <p>Nessun personaggio trovato.</p>
+    </div>
+</html>
