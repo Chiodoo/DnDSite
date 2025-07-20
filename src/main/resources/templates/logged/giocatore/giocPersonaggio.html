@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style_personaggio.css">
+    <title>Personaggio</title>
+</head>
+<body>
+    <div th:if="${personaggio}">
+        <h1 th:text="${personaggio.nome}">Nome</h1>
+        <p>Classe: <span th:text="${personaggio.classe}">Guerriero</span></p>
+        <p>Razza: <span th:text="${personaggio.razza}">Elfo</span></p>
+        <p>Livello: <span th:text="${personaggio.livello}">5</span></p>
+        <p>Descrizione: <span th:text="${personaggio.descrizione}">Un guerriero coraggioso e leale.</span></p>
+        <div th:if="${personaggio.image != null}">
+            <img th:src="@{'/uploads/' + ${personaggio.image.path}}" alt="Immagine Personaggio" width="150" />
+        </div>
+    </div>
+</body>
+</html>

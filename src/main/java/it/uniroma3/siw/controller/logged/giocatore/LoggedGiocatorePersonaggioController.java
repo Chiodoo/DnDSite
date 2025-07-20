@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
-@RequestMapping("/giocatore")
+@RequestMapping("/logged/giocatore")
 public class LoggedGiocatorePersonaggioController {
     
     @Autowired
@@ -30,7 +30,7 @@ public class LoggedGiocatorePersonaggioController {
     @GetMapping("/personaggio")
     public String showAdminAuthors(Model model) {
         model.addAttribute("personaggi", personaggioService.findAll());
-        return "giocatore/giocPersonaggi";
+        return "logged/giocatore/giocPersonaggi";
     }
 
     @GetMapping("/personaggio/{id}")
@@ -38,17 +38,17 @@ public class LoggedGiocatorePersonaggioController {
         Optional<Personaggio> optionalPersonaggio = personaggioService.findById(id);
         if (!optionalPersonaggio.isPresent()) {
             model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/giocatore/personaggio"; // o pagina 404
+            return "redirect:/logged/giocatore/personaggio"; // o pagina 404
         }
         Personaggio personaggio = optionalPersonaggio.get();
         model.addAttribute("personaggio", personaggio);
-        return "giocatore/adminPersonaggio";
+        return "logged/giocatore/giocPersonaggio";
     }
 
     @GetMapping("/formNewPersonaggio")
     public String getFormNewPersonaggio(Model model) {
         model.addAttribute("personaggio", new Personaggio());
-        return "giocatore/formNewPersonaggio";
+        return "logged/giocatore/formNewPersonaggio";
     }
 
     @GetMapping("/deletePersonaggio/{id}")
@@ -56,7 +56,7 @@ public class LoggedGiocatorePersonaggioController {
         Optional<Personaggio> personaggioOpt = personaggioService.findById(id);
         if (!personaggioOpt.isPresent()) {
             model.addAttribute("errorMessage", "Autore non trovato.");
-            return "redirect:/giocatore/personaggio"; // o pagina 404
+            return "redirect:/logged/giocatore/personaggio"; // o pagina 404
         }
         Personaggio personaggio = personaggioOpt.get();
         
@@ -70,34 +70,34 @@ public class LoggedGiocatorePersonaggioController {
         // Cancella l'autore dal database
         this.personaggioService.deleteById(id);
 
-        return "redirect:/giocatore/personaggio";
+        return "redirect:/logged/giocatore/personaggio";
     }
 
 
     @PostMapping("/personaggio")
     public String addPersonaggio(@ModelAttribute("personaggio") Personaggio personaggio,
-                            @RequestParam("personaggioImages") MultipartFile file,
+                            @RequestParam("personaggioImage") MultipartFile file,
                             BindingResult result,
                             Model model) throws IOException {
         if (result.hasErrors()) {
-            return "giocatore/formNewPersonaggio";
+            return "logged/giocatore/formNewPersonaggio";
         }
 
         // Usa il servizio per salvare personaggio e immagine
         this.personaggioService.saveWithImage(personaggio, file);
 
-        return "redirect:/giocatore/personaggio";
+        return "redirect:/logged/giocatore/personaggio";
     }
 
 
     @PostMapping("/personaggio/{id}")
     public String updateAuthor(@PathVariable Long id,
                             @ModelAttribute("author") Personaggio personaggio,
-                            @RequestParam(value = "authorImages", required = false) MultipartFile file,
+                            @RequestParam(value = "personaggioImage", required = false) MultipartFile file,
                             BindingResult result,
                             Model model) throws IOException {
         if (result.hasErrors()) {
-            return "giocatore/modificaPersonaggio";
+            return "/logged/giocatore/modificaPersonaggio";
         }
 
         // Opzionale: setta l'ID per sicurezza
@@ -106,7 +106,7 @@ public class LoggedGiocatorePersonaggioController {
 
         // Usa il metodo del servizio per gestire personaggio e immagine
         this.personaggioService.saveWithImage(personaggio, file);
-        return "redirect:/giocatore/personaggio";
+        return "redirect:/logged/giocatore/personaggio";
     }
 
    
@@ -116,10 +116,10 @@ public class LoggedGiocatorePersonaggioController {
         Optional<Personaggio> optionalPersonaggio = this.personaggioService.findById(id);
         if (!optionalPersonaggio.isPresent()) {
             model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/giocatore/personaggio";
+            return "redirect:/logged/giocatore/personaggio";
         }
         model.addAttribute("personaggio", optionalPersonaggio.get());
-        return "giocatore/modificaPersonaggio";
+        return "logged/giocatore/modificaPersonaggio";
     }
     
 }
