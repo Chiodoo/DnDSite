@@ -3,14 +3,17 @@ package it.uniroma3.siw.model;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+//import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+//import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -35,9 +38,13 @@ public class Personaggio {
     @Column(length = 2000)
     private String descrizione;
 
-    @OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToOne(mappedBy = "personaggio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Image image;
+
+    /*@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JoinColumn(name = "id_caratteristiche", unique = true)
-    private Caratteristiche caratteristiche;
+    private Caratteristiche caratteristiche;*/
+
 
     @ManyToMany
     private List<Campagna> campagne;
@@ -104,13 +111,13 @@ public class Personaggio {
         this.descrizione = descrizione;
     }
 
-    public Caratteristiche getCaratteristiche() {
+    /*public Caratteristiche getCaratteristiche() {
         return caratteristiche;
     }
 
     public void setCaratteristiche(Caratteristiche caratteristiche) {
         this.caratteristiche = caratteristiche;
-    }
+    }*/
 
     public List<Campagna> getCampagne() {
         return campagne;
@@ -120,6 +127,13 @@ public class Personaggio {
         this.campagne = campagne;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
