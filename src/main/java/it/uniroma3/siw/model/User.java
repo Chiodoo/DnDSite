@@ -1,10 +1,14 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.util.List;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +31,38 @@ public class User {
 
 	private String imagePath;
 
+	@OneToMany(mappedBy = "user")
+	private List<Personaggio> personaggi;
+
+	private List<Campagna> campagneDaMaster;
+
+	private List<Campagna> campagneDaGiocatore;
+
     //===============================METODI===========================
+
+	public List<Personaggio> getPersonaggi() {
+		return personaggi;
+	}
+
+	public void setPersonaggi(List<Personaggio> personaggi) {
+		this.personaggi = personaggi;
+	}
+
+	public List<Campagna> getCampagneDaMaster() {
+		return campagneDaMaster;
+	}
+
+	public void setCampagneDaMaster(List<Campagna> campagneDaMaster) {
+		this.campagneDaMaster = campagneDaMaster;
+	}
+
+	public List<Campagna> getCampagneDaGiocatore() {
+		return campagneDaGiocatore;
+	}
+
+	public void setCampagneDaGiocatore(List<Campagna> campagneDaGiocatore) {
+		this.campagneDaGiocatore = campagneDaGiocatore;
+	}
 
 	public String getImagePath() {
 		return imagePath;
