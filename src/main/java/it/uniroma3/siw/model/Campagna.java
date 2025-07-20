@@ -45,11 +45,11 @@ public class Campagna {
 
     //==========================METHODS=============================================
 
-    public List<Giocatore> getGiocatori() {
+    public List<User> getGiocatori() {
         return giocatori;
     }
 
-    public void setGiocatori(List<Giocatore> giocatori) {
+    public void setGiocatori(List<User> giocatori) {
         this.giocatori = giocatori;
     }
 
@@ -126,11 +126,11 @@ public class Campagna {
         return true;
     }
 
-    public Master getMaster() {
+    public User getMaster() {
         return master;
     }
 
-    public void setMaster(Master master) {
+    public void setMaster(User master) {
         this.master = master;
     }
 
