@@ -38,20 +38,10 @@ public class Campagna {
     private List<Mappa> mappe;
 
     @ManyToOne
+    @JoinColumn(name = "master_id")
     private User master;
 
-    @ManyToMany(mappedBy = "campagne")
-    private List<User> giocatori;
-
     //==========================METHODS=============================================
-
-    public List<User> getGiocatori() {
-        return giocatori;
-    }
-
-    public void setGiocatori(List<User> giocatori) {
-        this.giocatori = giocatori;
-    }
 
     public Long getId() {
         return id;

@@ -34,9 +34,8 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Personaggio> personaggi;
 
+	@OneToMany(mappedBy = "master")
 	private List<Campagna> campagneDaMaster;
-
-	private List<Campagna> campagneDaGiocatore;
 
     //===============================METODI===========================
 
@@ -54,14 +53,6 @@ public class User {
 
 	public void setCampagneDaMaster(List<Campagna> campagneDaMaster) {
 		this.campagneDaMaster = campagneDaMaster;
-	}
-
-	public List<Campagna> getCampagneDaGiocatore() {
-		return campagneDaGiocatore;
-	}
-
-	public void setCampagneDaGiocatore(List<Campagna> campagneDaGiocatore) {
-		this.campagneDaGiocatore = campagneDaGiocatore;
 	}
 
 	public String getImagePath() {
