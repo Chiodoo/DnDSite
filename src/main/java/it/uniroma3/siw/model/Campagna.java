@@ -38,10 +38,10 @@ public class Campagna {
     private List<Mappa> mappe;
 
     @ManyToOne
-    private Master master;
+    private User master;
 
     @ManyToMany(mappedBy = "campagne")
-    private List<Giocatore> giocatori;
+    private List<User> giocatori;
 
     //==========================METHODS=============================================
 
