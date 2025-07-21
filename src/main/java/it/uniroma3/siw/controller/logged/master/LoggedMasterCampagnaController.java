@@ -29,7 +29,7 @@ public class LoggedMasterCampagnaController {
     @GetMapping("/campagna")
     public String showGiocatoreCampagne(Model model){
         model.addAttribute("campagne", campagnaService.findAll());
-        return new String();
+        return "logged/master/masterCampagne";
     }
 
     @GetMapping("/campagna/{id}")
