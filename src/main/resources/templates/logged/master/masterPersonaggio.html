@@ -16,8 +16,7 @@
         <div th:if="${personaggio.image != null}">
             <img th:src="@{'/uploads/' + ${personaggio.image.path}}" alt="Immagine Personaggio" width="150" />
         </div>
-        <a th:href="@{/logged/giocatore/modificaPersonaggio}" class="button">Modifica Personaggio</a>
-        <a th:href="@{/logged/giocatore/personaggi}" class="button">Torna alla Lista Personaggi</a>
+        
     </div>
 </body>
 </html>

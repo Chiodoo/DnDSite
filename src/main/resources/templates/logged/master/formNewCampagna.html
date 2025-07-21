@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style-register.css">
+    <title>Nuova Campagna</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Crea una Nuova Campagna</h1>
+        <form th:action="${campagna.id} != null ? @{/logged/master/campagna/{id}(id=${campagna.id})} : @{/logged/giocatore/personaggio}" 
+            method="POST" 
+            th:object="${campagna}">
+
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+            <div class="input-group">
+                <label>Nome della Campagna:</label>
+                <span><input type="text" id="nome" placeholder="Nome della campagna" required th:field="*{nome}" /></span>
+                <span th:if="${#fields.hasErrors('nome')}" class="error-message">
+                    <p th:errors="*{nome}">Nome non valido</p>
+                </span>
+            </div>
+            <div class="input-group">
+                <label>Descrizione:</label>
+                <span><textarea id="descrizione" placeholder="Descrizione della campagna" th:field="*{descrizione}"></textarea></span>
+                <span th:if="${#fields.hasErrors('descrizione')}" class="error-message">
+                    <p th:errors="*{descrizione}">Descrizione non valida</p>
+                </span>
+            </div>
+            <button type="submit">Crea Campagna</button>
+        </form>
+        <button onclick="window.location.href='/logged/master/campagna'">Annulla</button>
+    </div>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style-campagne.css">
+    <title>Campagne</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/images/logo_DndSite.png" alt="Logo DndSite">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/logged/giocatoreIndex">Home</a></li>
+                <li><a href="/logged/giocatore/campagna">Campagne</a></li>
+                <li><a href="/logged/giocatore/personaggio">Personaggi</a></li>
+                <li><a href="/account">Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content">
+        <section class="description">
+            <h1>Lista delle Campagne</h1>
+            <p class="summary">
+                Crea una nuova campagna per il tuo gruppo di gioco. Compila i campi richiesti e salva la tua campagna.
+            </p>
+        </section>
+        <div class="campagna-list">
+            <div class="campagna-card" th:each="campagna : ${campagne}">
+                <a th:href="@{'/logged/giocatore/campagna/' + ${campagna.id}}">
+                    <h2 th:text="${campagna.nome}">Nome Campagna</h2>
+                    <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
+                </a>
+            </div>
+        </div>
+        <div id="no-campagna" th:if="${campagne.isEmpty()}">
+            <p>Nessuna campagna trovata.</p>
+        </div>
+</body> 
+
+</html>

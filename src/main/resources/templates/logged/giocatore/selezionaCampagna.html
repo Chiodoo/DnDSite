@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="it">    
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Seleziona Campagna</title>
+    <link rel="stylesheet" href="/css/style-selezionaCampagna.css"/>
+</head>
+<body>
+    <nav>
+        <a id="nav_item" href="/logged/giocatore/giocatoreIndex">Home</a>
+        <a id="nav_item" href="/logged/giocatore/personaggio">Personaggi</a>
+        
+    </nav>
+    <section>
+        <h3>Campagne disponibili:</h3>
+        <!-- Lista delle campagne -->
+        <ul th:each="campagna : ${campagne}">
+            <li th:text="${campagna.nome}"></li>
+        </ul>
+    </section>
+</html>
