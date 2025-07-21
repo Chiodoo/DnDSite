@@ -14,9 +14,15 @@ public class IndexController {
 
     @GetMapping(value = "/") 
 	public String index(Model model) {
+
 		if(this.authorizationService.isAdmin()) {
 			return "admin/indexAdmin";
+		} else if(this.authorizationService.isMaster()) {
+			return "logged/master/masterIndex";
+		} else if(this.authorizationService.isGiocatore()) {
+			return "logged/giocatore/giocatoreIndex";
 		}
+
 		return "index";
 	}
 
@@ -25,6 +31,10 @@ public class IndexController {
 
 		if(this.authorizationService.isAdmin()) {
 			return "admin/indexAdmin";
+		} else if(this.authorizationService.isMaster()) {
+			return "logged/master/masterIndex";
+		} else if(this.authorizationService.isGiocatore()) {
+			return "logged/giocatore/giocatoreIndex";
 		}
 		return "logged/success";
     }
