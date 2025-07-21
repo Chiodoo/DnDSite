@@ -43,6 +43,10 @@ public class AuthorizationService {
         return false;
     }
 
+        /**
+     * Verifica se l'utente autenticato ha il ruolo MASTER.
+     * Gli utenti OAuth2 non sono salvati nel DB e quindi sono trattati come utenti normali.
+     */
     public boolean isMaster() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -66,6 +70,10 @@ public class AuthorizationService {
         return false;
     }
 
+        /**
+     * Verifica se l'utente autenticato ha il ruolo GIOCATORE.
+     * Gli utenti OAuth2 non sono salvati nel DB e quindi sono trattati come utenti normali.
+     */
     public boolean isGiocatore() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
