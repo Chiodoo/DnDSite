@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style-campagna.css">
+    <title>Campagna</title>
+</head>
+<body>
+ <a th:href="@{/logged/master/modificaCampagna}" class="button">Modifica Campagna</a>
+    <a th:href="@{/logged/master/campagna}" class="button">Torna alla Lista Campagne</a>
+    <a th:href="@{'/logged/master/deleteCampagna/' + ${campagna.id}}" class="button delete">Elimina</a>
+    <div th:if="${campagna}">
+        <h1 th:text="${campagna.nome}">Nome Campagna</h1>
+        <p>Descrizione: <span th:text="${campagna.descrizione}">Descrizione della campagna...</span></p>
+    </div>
+</body>
+</html>

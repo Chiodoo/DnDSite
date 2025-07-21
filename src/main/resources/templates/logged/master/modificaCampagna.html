@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Modifica Campagna</title>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style-modificaCampagna.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Modifica Campagna</h1>
+        <form action="/modificaCampagna" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="nome">Nome Campagna</label>
+                <input type="text" id="nome" name="nome" value="Nome Campagna" required>
+            </div>
+            <div class="input-group">
+                <label for="descrizione">Descrizione</label>
+                <textarea id="descrizione" name="descrizione" rows="4">Descrizione della campagna...</textarea>
+            </div>
+            <div class="input-group">
+                <label for="immagine">Immagine</label>
+                <input type="file" id="immagine" name="immagine">
+            </div>
+            <button type="submit">Salva Modifiche</button>
+        </form>
+    </div>
+</body>
+</html>

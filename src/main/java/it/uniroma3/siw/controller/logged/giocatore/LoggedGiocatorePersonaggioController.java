@@ -28,7 +28,7 @@ public class LoggedGiocatorePersonaggioController {
 
 
     @GetMapping("/personaggio")
-    public String showAdminAuthors(Model model) {
+    public String showGiocatorePersonaggi(Model model) {
         model.addAttribute("personaggi", personaggioService.findAll());
         return "logged/giocatore/giocPersonaggi";
     }
@@ -91,12 +91,13 @@ public class LoggedGiocatorePersonaggioController {
 
 
     @PostMapping("/personaggio/{id}")
-    public String updateAuthor(@PathVariable Long id,
+    public String updatePersonaggio(@PathVariable Long id,
                             @ModelAttribute("author") Personaggio personaggio,
                             @RequestParam(value = "personaggioImage", required = false) MultipartFile file,
                             BindingResult result,
                             Model model) throws IOException {
         if (result.hasErrors()) {
+            model.addAttribute("errorMessage", "Errore durante l'aggiornamento del personaggio.");
             return "/logged/giocatore/modificaPersonaggio";
         }
 
