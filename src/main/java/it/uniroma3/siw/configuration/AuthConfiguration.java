@@ -17,7 +17,6 @@ import it.uniroma3.siw.security.CustomOAuth2UserService;
 import it.uniroma3.siw.security.CustomOidcUserService;
 
 import static it.uniroma3.siw.model.Credentials.ADMIN_ROLE;
-import static it.uniroma3.siw.model.Credentials.DEFAULT_ROLE;
 import static it.uniroma3.siw.model.Credentials.GIOCATORE_ROLE;
 import static it.uniroma3.siw.model.Credentials.MASTER_ROLE;
 
@@ -29,7 +28,6 @@ public class AuthConfiguration {
 
     @Autowired
     private DataSource dataSource;
-
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
@@ -51,7 +49,9 @@ public class AuthConfiguration {
     }
 
     @Bean
-    protected SecurityFilterChain configure(final HttpSecurity httpSecurity, CustomOAuth2UserService customOAuth2UserService, CustomOidcUserService customOidcUserService) throws Exception {
+    protected SecurityFilterChain configure(final HttpSecurity httpSecurity,
+                                            CustomOAuth2UserService customOAuth2UserService,
+                                            CustomOidcUserService customOidcUserService) throws Exception {
         httpSecurity
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(requests -> requests
@@ -60,13 +60,13 @@ public class AuthConfiguration {
                 // Registrazione e login aperti a tutti (POST)
                 .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                 // Area amministrativa solo per admin
-                .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
-                // Area autenticata
-                .requestMatchers("/logged/**").hasAuthority(DEFAULT_ROLE)
-                // Area autenticata per giocatori
-                .requestMatchers("/logged/giocatore/**").hasAuthority(GIOCATORE_ROLE)
-                // Area autenticata per master
-                .requestMatchers("/logged/master/**").hasAuthority(MASTER_ROLE)
+                .requestMatchers("/admin/**").hasRole(ADMIN_ROLE)
+                // Area autenticata specifica per giocatori
+                .requestMatchers("/logged/giocatore/**").hasRole(GIOCATORE_ROLE)
+                // Area autenticata specifica per master
+                .requestMatchers("/logged/master/**").hasRole(MASTER_ROLE)
+                // Tutte le altre sotto /logged richiedono autenticazione
+                .requestMatchers("/logged/**").authenticated()
                 // Tutte le altre richieste devono essere autenticate
                 .anyRequest().authenticated()
             )
@@ -85,16 +85,14 @@ public class AuthConfiguration {
                 .permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
-          .loginPage("/login")
-          .userInfoEndpoint(endpoints -> endpoints
-              // per OAUTH2 puro (GitHub, Facebook…)
-              .userService(customOAuth2UserService)
-              // per OIDC (Google, Azure AD…)
-              .oidcUserService(customOidcUserService))
-          .defaultSuccessUrl("/success", true)
-        );
+                .loginPage("/login")
+                .userInfoEndpoint(endpoints -> endpoints
+                    .userService(customOAuth2UserService)
+                    .oidcUserService(customOidcUserService)
+                )
+                .defaultSuccessUrl("/success", true)
+            );
 
         return httpSecurity.build();
     }
-
 }
