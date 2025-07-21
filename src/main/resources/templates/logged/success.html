@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,8 +10,19 @@
     <div class="container">
         <h1>Registrazione Completata</h1>
         <p>Clicca se sei un master o un giocatore</p>
-        <button onclick="location.href='/logged/diventaMaster'">Gioca come Master</button>
-        <button onclick="location.href='/logged/diventaGiocatore'">Gioca come Giocatore</button>
+
+        <!-- Form per diventare Master -->
+        <form th:action="@{/logged/diventaMaster}" method="post">
+            <!-- token CSRF -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="btn">Gioca come Master</button>
+        </form>
+
+        <!-- Form per diventare Giocatore -->
+        <form th:action="@{/logged/diventaGiocatore}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="btn">Gioca come Giocatore</button>
+        </form>
     </div>
 </body>
 </html>

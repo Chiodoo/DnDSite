@@ -43,4 +43,50 @@ public class AuthorizationService {
         return false;
     }
 
+    public boolean isMaster() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            // Utente OAuth2 → trattato come utente normale, non admin
+            return false;
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            String username = userDetails.getUsername();
+            Credentials credentials = credentialsService.getCredentials(username);
+            return credentials != null && Credentials.MASTER_ROLE.equals(credentials.getRole());
+        }
+
+        return false;
+    }
+
+    public boolean isGiocatore() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            // Utente OAuth2 → trattato come utente normale, non admin
+            return false;
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            String username = userDetails.getUsername();
+            Credentials credentials = credentialsService.getCredentials(username);
+            return credentials != null && Credentials.GIOCATORE_ROLE.equals(credentials.getRole());
+        }
+
+        return false;
+    }
+
 }

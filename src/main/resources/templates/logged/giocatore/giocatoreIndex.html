@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Giocatore HomePage</title>
-    <link rel="stylesheet" href="/css/style-index.css"/>
+  <link rel="stylesheet" href="/css/style-index.css"/>
 </head>
 <body>
-    <header>
-        <h1>Comincia la tua campagna</h1>
-        <button onclick="window.location.href='/login'">Accedi</button>
-        <button onclick="window.location.href='/register'">Registrati</button>
-        <button onclick="window.location.href='/logged/diventaMaster'">Diventa Master</button>
-        <button onclick="window.location.href='/logged/giocatore/personaggio'">Personaggi</button>
-        <button onclick="window.location.href='/logged/giocatore/campagna'">Seleziona Campagna</button>
-    </header>
-    <section>
-        <div th:if="${userDetails}">
-                    <span th:text="${userDetails.username}"></span>
-                </div>
-        <h3>Cosa fa questo sito?</h3>
-        <p>
-            Questo sito è un'applicazione web progettata per aiutare i giocatori di giochi di 
-            ruolo a gestire le loro campagne. Puoi creare e modificare schede personaggio, prendere 
-            appunti e visualizzare mappe. È un modo semplice e intuitivo per tenere traccia delle 
-            informazioni importanti durante le sessioni di gioco.
-        </p>
-    </section>
-        
+  <header>
+    <h1>Comincia la tua campagna</h1>
+    <button onclick="window.location.href='/login'">Accedi</button>
+    <button onclick="window.location.href='/register'">Registrati</button>
+
+    <!-- form POST per tornare Master -->
+    <form th:action="@{/logged/diventaMaster}" method="post" style="display:inline">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit">Diventa Master</button>
+    </form>
+
+    <button onclick="window.location.href='/logged/giocatore/personaggio'">Personaggi</button>
+    <button onclick="window.location.href='/logged/giocatore/campagna'">Seleziona Campagna</button>
+  </header>
+  <section>
+    <div th:if="${userDetails}">
+      <span th:text="${userDetails.username}"></span>
+    </div>
+    <h3>Cosa fa questo sito?</h3>
+    <p>…</p>
+  </section>
 </body>
 </html>
