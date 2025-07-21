@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Crea una Nuova Campagna</h1>
-        <form th:action="${campagna.id} != null ? @{/logged/master/campagna/{id}(id=${campagna.id})} : @{/logged/giocatore/personaggio}" 
+        <form th:action="${campagna.id} != null ? @{/logged/master/campagna/{id}(id=${campagna.id})} : @{/logged/master/campagna}" 
             method="POST" 
             th:object="${campagna}">
 
