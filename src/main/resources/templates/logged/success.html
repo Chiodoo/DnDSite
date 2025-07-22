@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Registrazione Completata</title>
-    <link rel="stylesheet" href="/css/style-success.css"/>
+    <link rel="stylesheet" href="/css/style-index.css"/>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>Registrazione Completata</h1>
         <p>Clicca se sei un master o un giocatore</p>
 
@@ -23,6 +23,6 @@
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <button type="submit" class="btn">Gioca come Giocatore</button>
         </form>
-    </div>
+    </header>
 </body>
 </html>

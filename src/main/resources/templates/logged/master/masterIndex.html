@@ -4,29 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Master HomePage</title>
-  <link rel="stylesheet" href="/css/style-index.css"/>
+  <link rel="stylesheet" href="/css/style-loggedIndex.css"/>
 </head>
 <body>
-  <header>
-    <h1>Comincia la tua campagna</h1>
-    <button onclick="window.location.href='/login'">Accedi</button>
-    <button onclick="window.location.href='/register'">Registrati</button>
-
-    <!-- form POST per tornare Giocatore -->
-    <form th:action="@{/logged/diventaGiocatore}" method="post" style="display:inline">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-      <button type="submit">Diventa Giocatore</button>
-    </form>
-
-    <button onclick="window.location.href='/logged/master/personaggio'">Personaggi</button>
-    <button onclick="window.location.href='/logged/master/campagna'">Seleziona Campagna</button>
-  </header>
-  <section>
-    <div th:if="${userDetails}">
-      <span th:text="${userDetails.username}"></span>
+<div class="background">
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="logo">
+      <img src="/images/logo_DndSite.png" alt="Logo DndSite">
     </div>
-    <h3>Cosa fa questo sito?</h3>
-    <p>…</p>
-  </section>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/account">Account</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- CONTENUTO PRINCIPALE -->
+  <main> 
+    <header>
+      <h1>Comincia la tua campagna</h1>
+
+      <!-- form POST per tornare Giocatore -->
+      <form th:action="@{/logged/diventaGiocatore}" method="post" style="display:inline">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Diventa Giocatore</button>
+      </form>
+
+      <button onclick="window.location.href='/logged/master/personaggio'">Personaggi</button>
+      <button onclick="window.location.href='/logged/master/campagna'">Seleziona Campagna</button>
+    </header>
+  </main>
+</div>
 </body>
 </html>

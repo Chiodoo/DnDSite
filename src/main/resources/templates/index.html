@@ -8,22 +8,11 @@
 </head>
 <body>
     <header>
-        <h1>Comincia la tua campagna</h1>
+        <h1>DndSite</h1>
+        <h2>Comincia la tua campagna</h2>
         <button onclick="window.location.href='/login'">Accedi</button>
         <button onclick="window.location.href='/register'">Registrati</button>
     </header>
-    <section>
-        <div th:if="${userDetails}">
-                    <span th:text="${userDetails.username}"></span>
-                </div>
-        <h3>Cosa fa questo sito?</h3>
-        <p>
-            Questo sito è un'applicazione web progettata per aiutare i giocatori di giochi di 
-            ruolo a gestire le loro campagne. Puoi creare e modificare schede personaggio, prendere 
-            appunti e visualizzare mappe. È un modo semplice e intuitivo per tenere traccia delle 
-            informazioni importanti durante le sessioni di gioco.
-        </p>
-    </section>
         
 </body>
 </html>
