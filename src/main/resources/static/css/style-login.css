@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&family=Turret+Road:wght@200;300;400;500;700;800&display=swap');
 
 * {
     margin: 0;
@@ -10,7 +10,6 @@ body {
     position: relative;
     min-height: 100vh;
     color: #fff;
-    font-family: 'Goldman', sans-serif;
 }
 
 body::before {
@@ -27,7 +26,7 @@ body::before {
 }
 
 .container {
-    font-family: 'Goldamn';
+    font-family: 'Fondamento', cursive;
     background: linear-gradient(135deg, rgba(46, 32, 48, 0.7), rgba(22, 11, 24, 0.7)); /* Gradiente dall'alto a sinistra */
     display: flex;
     flex-direction: column;
@@ -42,6 +41,7 @@ body::before {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
+    text-emphasis: center;
     color: white;
 }
 
@@ -67,33 +67,34 @@ h1 {
 .input-group input {
     font-size: 15px;
     width: 100%;
-    border: none;
-    background-color: rgba(43, 36, 44, 0.7);
+    border: white solid 1px;
+    background-color: transparent;
     padding: 12px;
     color: rgba(255, 255, 255, 0.7);
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .input-group input:hover {
-    background-color: rgba(75, 65, 77, 0.7);
+    background-color: rgba(50, 26, 54, 0.4);
     color: #fff;
 }
 
 button {
-    background-color: rgba(22, 11, 24, 0.7);
+    font-family: "Fondamento", cursive;
+    background-color:transparent;
     color: white;
-    border: none;
+    border: white solid 1px;
     margin: 20px auto;
     padding: 15px 40px;
     font-size: 20px;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 40px;
     display: block;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 button:hover {
-    background-color: rgba(62, 49, 65, 0.7);
+    background-color: rgba(50, 26, 54, 0.4);
     color: white;
 }
 
@@ -110,4 +111,19 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+.error-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+#no-access {
+    color: #f73e3e;
+    font-size: 20px;
+    text-align: center;
+}
+#no-account{
+    font-family: "Fondamento", cursive;
 }

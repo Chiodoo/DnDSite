@@ -4,16 +4,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     margin:0;
     font-family: 'Fondamento', cursive;
-    background-image: url('/images/PaesaggioMedievaleAntico.png');
+    background-image: url('/images/logged_index.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 .background {
-    background-color: rgba(45, 2, 49, 0.2); /* Colore di sfondo con trasparenza */
+    background-color: rgba(45, 2, 49, 0.4); /* Colore di sfondo con trasparenza */
     width: 100vw;
     height: 100vh;
     z-index: -1; /* Assicura che il background sia dietro gli altri elementi */
@@ -40,6 +41,7 @@ body{
     height: auto;
     display: block;
 }
+
 .nav-links {
   display: flex;
   justify-content: flex-end;
@@ -63,6 +65,8 @@ body{
 .nav-links .active {
   color: #ffd700;
 }
+
+
 
 header {
     position: relative;

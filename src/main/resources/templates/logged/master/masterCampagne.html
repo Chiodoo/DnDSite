@@ -7,24 +7,26 @@
     <title>Campagne</title>
 </head>
 <body>
+<div class="background">>
     <header class="navbar">
         <div class="logo">
             <img src="/images/logo_DndSite.png" alt="Logo DndSite">
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="/logged/masterIndex">Home</a></li>
+                <li><a href="/logged/master/masterIndex">Home</a></li>
                 <li><a href="/logged/master/campagna">Campagne</a></li>
                 <li><a href="/logged/master/personaggio">Personaggi</a></li>
                 <li><a href="/account">Account</a></li>
-                <li><form th:action="@{/logout}" method="post">
+                <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
+                    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit" class="dropdown-item">Logout</button>
-                  </form></li>
+                    </form>
+                </li>
             </ul>
         </nav>
     </header>
-    <div class="content">
+    <header class="content">
         <section class="description">
             <h1>Lista delle Campagne</h1>
             <p class="summary">
@@ -32,17 +34,20 @@
             </p>
             <a th:href="@{/logged/master/formNewCampagna}" >Aggiungi una nuova campagna</a>
         </section>
-        <div class="campagna-list">
-            <div class="campagna-card" th:each="campagna : ${campagne}">
-                <a th:href="@{'/logged/master/campagna/' + ${campagna.id}}">
-                    <h2 th:text="${campagna.nome}">Nome Campagna</h2>
-                    <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
-                </a>
+        <section class="campagne">
+            <div class="campagna-list">
+                <div class="campagna-card" th:each="campagna : ${campagne}">
+                    <a th:href="@{'/logged/master/campagna/' + ${campagna.id}}">
+                        <h2 th:text="${campagna.nome}">Nome Campagna</h2>
+                        <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div id="no-campagna" th:if="${campagne.isEmpty()}">
-            <p>Nessuna campagna trovata.</p>
-        </div>
+            <div id="no-campagna" th:if="${campagne.isEmpty()}">
+                <p>Nessuna campagna trovata.</p>
+            </div>
+        </section>
+    </header>
 </body> 
 
 </html>

@@ -1,6 +1,7 @@
 package it.uniroma3.siw.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.model.Campagna;
 import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Personaggio;
 import it.uniroma3.siw.repository.PersonaggioRepository;
@@ -59,5 +61,7 @@ public class PersonaggioService {
         // Salva autore con immagine associata
         return this.personaggioRepository.save(personaggio);
     }
-
+    public List<Personaggio> findbyCampagna(Campagna campagna) {
+        return personaggioRepository.findByCampagneContains(campagna);
+    }
 }

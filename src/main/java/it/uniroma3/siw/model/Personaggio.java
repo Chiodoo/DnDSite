@@ -1,5 +1,6 @@
 package it.uniroma3.siw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -15,10 +16,23 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Version;
 
 @Entity
 public class Personaggio {
 
+    @Version
+    private Long version;
+    
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    //==========================ATTRIBUTES=========================================
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,13 +55,8 @@ public class Personaggio {
     @OneToOne(mappedBy = "personaggio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Image image;
 
-    /*@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "id_caratteristiche", unique = true)
-    private Caratteristiche caratteristiche;*/
-
-
     @ManyToMany
-    private List<Campagna> campagne;
+    private List<Campagna> campagne = new ArrayList<>();
 
     @ManyToOne
     private User user;

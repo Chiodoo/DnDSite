@@ -4,16 +4,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     margin:0;
     font-family: 'Fondamento', cursive;
-    background-image: url('/images/PaesaggioMedievaleAntico.png');
+    background-image: url('/images/logged_index.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 .background {
-    background-color: rgba(45, 2, 49, 0.2); /* Colore di sfondo con trasparenza */
+    background-color: rgba(45, 2, 49, 0.4); /* Colore di sfondo con trasparenza */
     width: 100vw;
     height: 100vh;
     z-index: -1; /* Assicura che il background sia dietro gli altri elementi */
@@ -40,6 +41,7 @@ body{
     height: auto;
     display: block;
 }
+
 .nav-links {
   display: flex;
   justify-content: flex-end;
@@ -64,23 +66,26 @@ body{
   color: #ffd700;
 }
 
-header {
-    position: relative;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    width: 100vw;
-    height: 100vh;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
+
+.campagna {
+  padding: 2rem 4rem 4rem 4rem; /* top, right, bottom, left */
+  width: 100vw;
+  min-height: 100vh;
+  color:white;
+  align-content: center;
 }
 
+campagna h2 {
+    font-family: 'Fondamento', cursive;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
 
-
+.campagna p {
+    font-family: 'Fondamento', cursive;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
 header > * {
     position: relative;
     z-index: 1;
@@ -108,17 +113,54 @@ button:hover{
     background-color: rgba(50, 26, 54, 0.4);
     color: rgb(255, 255, 255);
 }
-section{
+.personaggi-section {
+    color: white;
+  padding: 2rem 0;
+}
+
+.personaggi-flex{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    padding: 20px;
-    margin: 20px;
+    overflow-x: auto;
+    gap: 1.5rem; /* Spazio tra le card */
+    padding-bottom: 1rem;
 }
-p{
-    max-width: 50em;
+.personaggi-flex::-webkit-scrollbar{
+    height: 6px; /* Altezza della scrollbar */
+}
+.personaggi-flex::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.5); /* Colore della parte mobile della scrollbar */
+    border-radius: 3px; /* Arrotondamento degli angoli della scrollbar */
+}
+.personaggio-card {
+  padding: 10px;
+  width: 150px;
+ height: auto;
+ 
+ transition: trasform 0.3s ease;
 }
 
 
+.personaggio-card img{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+.personaggio-card img:hover {
+  transform: scale(1.05);
+}
+
+.personaggio-card p {
+  margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: white;
+}
+
+a {
+  color: #fff;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #ffd700;
+}

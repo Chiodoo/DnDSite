@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style_register.css">
+    <link rel="stylesheet" href="/css/style_form.css">
     <title>New Personaggio</title>
 </head>
 <body>
     <div class="container">
         <h1>Aggiungi un Nuovo Personaggio</h1>
-        <form th:action="${personaggio.id} != null ? @{/logged/giocatore/personaggio/{id}(id=${personaggio.id})} : @{/logged/giocatore/personaggio}"
+        <form th:action="${personaggio.id} != null ?
+                          @{/logged/giocatore/campagna/{campagnaId}/modificaPersonaggio/{id}(campagnaId=${campagnaId}, id=${personaggio.id})} :
+                          @{/logged/giocatore/campagna/{campagnaId}/formNewPersonaggio(campagnaId=${campagnaId})}"
             method="POST"
             th:object="${personaggio}"
             enctype="multipart/form-data">
+            <!-- Hidden fields for id and version -->
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{version}" />
+
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
             <div class="input-group">
                 <label>Nome:</label>
@@ -58,7 +64,10 @@
             <button type="submit">Aggiungi Personaggio</button>
         </form>
         
-        <button type="button" onclick="location.href='/logged/giocatore/personaggio'">Annulla</button>
+        <button type="button"
+                th:onclick="'location.href=\'/logged/giocatore/campagna/' + ${campagnaId} + '/personaggi\''">
+            Annulla
+        </button>
     </div>
 </body>
 </html>
