@@ -15,8 +15,7 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="/logged/master/masterIndex">Home</a></li>
-                <li><a href="/logged/master/campagna">Campagne</a></li>
-                <li><a href="/logged/master/personaggio">Personaggi</a></li>
+                <li><a href="/logged/master/campagna">Le mie campagne</a></li>
                 <li><a href="/account">Account</a></li>
                 <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
                     <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
@@ -29,10 +28,6 @@
     <header class="content">
         <section class="description">
             <h1>Lista delle Campagne</h1>
-            <p class="summary">
-                Crea una nuova campagna per il tuo gruppo di gioco. Compila i campi richiesti e salva la tua campagna.
-            </p>
-            <a th:href="@{/logged/master/formNewCampagna}" >Aggiungi una nuova campagna</a>
         </section>
         <section class="campagne">
             <div class="campagna-list">

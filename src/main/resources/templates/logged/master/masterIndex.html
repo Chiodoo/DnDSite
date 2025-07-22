@@ -13,30 +13,31 @@
     <div class="logo">
       <img src="/images/logo_DndSite.png" alt="Logo DndSite">
     </div>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/account">Account</a></li>
-        <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
-            <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
-              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            </form>
-        </li>
-      </ul>
-    </nav>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/logged/master/masterIndex">Home</a></li>
+                <li><a href="/logged/master/campagna">Le mie campagne</a></li>
+                <li><a href="/account">Account</a></li>
+                <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
+                    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </form>
+                </li>
+            </ul>
+        </nav>
   </div>
 
   <!-- CONTENUTO PRINCIPALE -->
   <main> 
     <header>
-      <h1>Comincia la tua campagna</h1>
-
+      <h1>Benvenuto Master</h1>
+      <button onclick="window.location.href='/logged/master/formNewCampagna'">Crea una nuova campagna</button>
+      <h4>Oppure</h4>
       <!-- form POST per tornare Giocatore -->
       <form th:action="@{/logged/diventaGiocatore}" method="post" style="display:inline">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <button type="submit">Diventa Giocatore</button>
       </form>
-
-      <button onclick="window.location.href='/logged/master/campagna'">Lista delle Campagne</button>
     </header>
   </main>
 </div>

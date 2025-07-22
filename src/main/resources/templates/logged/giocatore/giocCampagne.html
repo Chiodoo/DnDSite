@@ -16,8 +16,9 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="/logged/giocatore/giocatoreIndex">Home</a></li>
-                <li><a href="/logged/giocatore/campagna">Campagne</a></li>
-                <li><a href="/logged/giocatore/personaggio">Personaggi</a></li>
+                <li><a href="/logged/giocatore/campagna">Le mie campagne</a></li>
+                <li><a href="/logged/giocatore/personaggio">I miei personaggi</a></li>
+                <li><a th:href="@{/logged/giocatore/campagna/formNewPersonaggio}">Crea un nuovo personaggio</a></li>
                 <li><a href="/account">Account</a></li>
                 <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
                     <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
