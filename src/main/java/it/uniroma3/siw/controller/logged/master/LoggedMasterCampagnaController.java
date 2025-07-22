@@ -27,7 +27,7 @@ public class LoggedMasterCampagnaController {
     private CampagnaService campagnaService;
     
     @GetMapping("/campagna")
-    public String showGiocatoreCampagne(Model model){
+    public String showMasterCampagne(Model model){
         model.addAttribute("campagne", campagnaService.findAll());
         return "logged/master/masterCampagne";
     }
@@ -41,7 +41,7 @@ public class LoggedMasterCampagnaController {
         }
         Campagna campagna = optionalCampagna.get();
         model.addAttribute("campagna", campagna);
-        return "logged/giocatore/giocCampagna";
+        return "logged/master/masterCampagna";
     }
 
     @GetMapping("/formNewCampagna")

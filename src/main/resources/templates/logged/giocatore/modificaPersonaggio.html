@@ -1,41 +1,78 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style_form.css">
     <title>Modifica Personaggio</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/style-modificaPersonaggio.css"/>
 </head>
 <body>
     <div class="container">
         <h1>Modifica Personaggio</h1>
-        <form action="/modificaPersonaggio" method="post" enctype="multipart/form-data">
+
+        <form th:action="@{/logged/giocatore/campagna/{campagnaId}/personaggio/{personaggioId}(campagnaId=${campagnaId}, personaggioId=${personaggio.id})}"
+              method="POST"
+              th:object="${personaggio}"
+              enctype="multipart/form-data">
+              
+            <!-- Hidden fields for id and version -->
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{version}" />
+
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+
             <div class="input-group">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" value="Nome Personaggio" required>
+                <label>Nome:</label>
+                <span><input type="text" id="nome" placeholder="nome" required th:field="*{nome}" /></span>
+                <span th:if="${#fields.hasErrors('nome')}" class="error-message">
+                    <p th:errors="*{nome}">Nome non valido</p>
+                </span>
             </div>
+
             <div class="input-group">
-                <label for="classe">Classe</label>
-                <input type="text" id="classe" name="classe" value="Classe" required>
+                <label>Razza:</label>
+                <span><input type="text" id="razza" placeholder="razza" required th:field="*{razza}" /></span>
+                <span th:if="${#fields.hasErrors('razza')}" class="error-message">
+                    <p th:errors="*{razza}">Razza non valida</p>
+                </span>
             </div>
+
             <div class="input-group">
-                <label for="razza">Razza</label>
-                <input type="text" id="razza" name="razza" value="Razza" required>
+                <label>Classe:</label>
+                <span><input type="text" id="classe" placeholder="classe" required th:field="*{classe}" /></span>
+                <span th:if="${#fields.hasErrors('classe')}" class="error-message">
+                    <p th:errors="*{classe}">Classe non valida</p>
+                </span>
             </div>
+
             <div class="input-group">
-                <label for="descrizione">Descrizione</label>
-                <textarea id="descrizione" name="descrizione" rows="4">Descrizione del personaggio...</textarea>
+                <label>Livello:</label>
+                <span><input type="number" id="livello" placeholder="livello" required th:field="*{livello}" /></span>
+                <span th:if="${#fields.hasErrors('livello')}" class="error-message">
+                    <p th:errors="*{livello}">Livello non valido</p>
+                </span>
             </div>
+
             <div class="input-group">
-                <label for="livello">Livello</label>
-                <input type="number" id="livello" name="livello" value="1" min="1" required>
+                <label>Descrizione:</label>
+                <span><textarea id="descrizione" placeholder="descrizione" th:field="*{descrizione}"></textarea></span>
+                <span th:if="${#fields.hasErrors('descrizione')}" class="error-message">
+                    <p th:errors="*{descrizione}">Descrizione non valida</p>
+                </span>
             </div>
+
             <div class="input-group">
-                <label for="immagine">Immagine</label>
-                <input type="file" id="immagine" name="immagine">
+                <label for="personaggioImage">Immagine:</label>
+                <input type="file" id="personaggioImage" name="personaggioImage" accept="image/*" />
             </div>
+
             <button type="submit">Salva Modifiche</button>
         </form>
+
+        <button type="button"
+                th:onclick="'location.href=\'/logged/giocatore/campagna/' + ${campagnaId}">
+            Annulla
+        </button>
     </div>
 </body>
 </html>
