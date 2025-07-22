@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style-register.css">
+    <title>Modifica Account</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Modifica il tuo Account</h1>
+            <form th:action="@{/logged/giocatore/account}" method="post" th:object="${credentials}">
+                <!--ID nascosti-->
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{user.id}"/>
+                <input type="hidden" th:field="*{role}"/>
+                <!--Campi del form-->
+                <div class="input-group">
+                    <label for="name">Nome:</label>
+                    <span><input type="text" id="name" placeholder="name" th:field="*{user.name}" required /></span>
+                    <span th:if="${#fields.hasErrors('user.name')}" class="error-message">
+                        <p th:errors="*{user.name}">Nome non valido</p></span>
+                </div>
+                <div class="input-group">
+                    <label for="surname">Cognome:</label>
+                    <span><input type="text" id="surname" placeholder="surname" th:field="*{user.surname}" required /></span>
+                    <span th:if="${#fields.hasErrors('user.surname')}" class="error-message">
+                        <p th:errors="*{user.surname}">Cognome non valido</p></span>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <span><input type="email" id="email" placeholder="email" th:field="*{user.email}" required /></span>
+                    <span th:if="${#fields.hasErrors('user.email')}" class="error-message">
+                        <p th:errors="*{user.email}">Email non valida</p></span>
+                </div>
+                <div class="input-group">
+                    <label for="birth">Data di Nascita:</label>
+                    <span><input type="date" id="birth" th:field="*{user.birth}" required /></span>
+                    <span th:if="${#fields.hasErrors('user.birth')}" class="error-message">
+                        <p th:errors="*{user.birth}">Data di nascita non valida</p></span>
+                </div>
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <span><input type="text" id="username" placeholder="username" th:field="*{username}" required /></span>
+                    <span th:if="${#fields.hasErrors('username')}" class="error-message">
+                        <p th:errors="*{username}">Username non valido</p></span>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <span><input type="password" id="password" placeholder="password" th:field="*{password}" required /></span>
+                    <span th:if="${#fields.hasErrors('password')}" class="error-message">
+                        <p th:errors="*{password}">Password non valida</p></span>
+                </div>
+                <button type="submit">Salva modifiche</button>
+            </form>
+            <button onclick="window.location.href='/logged/giocatore/account'" class="cancel-button">Annulla</button>
+    </div>
+</html>

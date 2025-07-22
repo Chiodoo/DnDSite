@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +33,10 @@ public class User {
     private LocalDate birth;
 
 	private String imagePath;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "credentials_id")
+	private Credentials credentials;
 
 	@OneToMany(mappedBy = "user")
 	private List<Personaggio> personaggi;
@@ -100,6 +107,14 @@ public class User {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Credentials getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
 	}
 
 	@Override

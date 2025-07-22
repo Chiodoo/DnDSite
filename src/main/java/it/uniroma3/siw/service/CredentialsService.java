@@ -3,13 +3,20 @@ package it.uniroma3.siw.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.CredentialsRepository;
+import it.uniroma3.siw.repository.UserRepository;
 
 @Service
 public class CredentialsService {
@@ -19,6 +26,12 @@ public class CredentialsService {
 
     @Autowired
     protected CredentialsRepository credentialsRepository;
+
+    @Autowired
+    protected AuthenticationManager authenticationManager;
+
+    @Autowired
+    protected UserRepository userRepository;
 
     @Transactional
     public Credentials getCredentials(Long id) {
@@ -33,8 +46,9 @@ public class CredentialsService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Credentials> findById(Long id) {
-        return credentialsRepository.findById(id);
+    public Credentials findById(Long id) {
+        Optional<Credentials> result = this.credentialsRepository.findById(id);
+        return result.orElse(null);
     }
 
     @Transactional(readOnly = true)
@@ -84,5 +98,64 @@ public class CredentialsService {
                 "Credenziali non trovate per userId=" + userId));
         credentials.setRole(Credentials.MASTER_ROLE);
         saveCredentials(credentials);
+    }
+
+    @Transactional
+    public Credentials getCurrentCredentials() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if(principal instanceof UserDetails userDetails) {
+            String username = userDetails.getUsername();
+            Credentials credentials = this.getCredentials(username);
+            return credentials;
+        }
+        return null;
+    }
+
+    @Transactional
+    public void updateCredentials(Credentials credentials) {
+        Credentials existingCredentials = this.getCredentials(credentials.getId());
+        if(existingCredentials != null) {
+            existingCredentials.setUsername(credentials.getUsername());
+
+            if(credentials.getPassword() != null && !credentials.getPassword().isBlank()) {
+                existingCredentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+            }
+            existingCredentials.setRole(credentials.getRole());
+
+            //recupera l'utente associato e ricollegalo
+            if(existingCredentials.getUser() != null) {
+                existingCredentials.getUser().setCredentials(existingCredentials);
+            }
+            this.credentialsRepository.save(existingCredentials);
+        }
+    }
+
+    @Transactional
+    public void autoLogin(String username, String rawPassword) {
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(username, rawPassword);
+        Authentication auth = authenticationManager.authenticate(token);
+
+        if(auth.isAuthenticated()){
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        } else {
+            throw new UsernameNotFoundException("Credenziali non valide per l'utente: " + username);
+        }
+       
+    }
+
+    @Transactional
+    public void deleteCredentials(Long id) {
+        Credentials credentials = this.getCredentials(id);
+        if (credentials != null) {
+           User user = credentials.getUser();
+            if (user != null) {
+                user.setCredentials(null); // Rimuove il collegamento tra l'utente e le credenziali
+                userRepository.delete(user); // Elimina l'utente se necessario
+            }
+            this.credentialsRepository.delete(credentials);
+        }
     }
 }
