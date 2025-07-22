@@ -1,12 +1,17 @@
 package it.uniroma3.siw.controller.logged.master;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.ui.Model;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.service.CredentialsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,12 +71,20 @@ public class LoggedMasterController {
     }
 
     @PostMapping("/deleteAccount/{id}")
-    public String deleteAccount(@PathVariable("id") Long id, Model model) {
+    public String deleteAccount(@PathVariable("id") Long id, Model model,
+                                HttpServletRequest request, HttpServletResponse response) {
         Credentials credentials = credentialsService.getCredentials(id);
-        if(credentials != null){
+        if (credentials != null) {
             credentialsService.deleteCredentials(id);
-            return "redirect:/logout"; // Redirect to logout after deletion
-        } 
+
+            // Esegui logout manuale
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+
+            return "redirect:/"; // oppure una pagina di conferma
+        }
         model.addAttribute("error", "Account not found.");
         return "error";
     }

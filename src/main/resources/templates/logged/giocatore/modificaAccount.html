@@ -51,6 +51,10 @@
                     <span th:if="${#fields.hasErrors('password')}" class="error-message">
                         <p th:errors="*{password}">Password non valida</p></span>
                 </div>
+                <div class="input-group">
+                    <label for="image">Immagine Utente</label>
+                    <span><input type="file" name="profileImage" id="image" accept="image/*" /></span>
+                </div>
                 <button type="submit">Salva modifiche</button>
             </form>
             <button onclick="window.location.href='/logged/giocatore/account'" class="cancel-button">Annulla</button>
