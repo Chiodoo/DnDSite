@@ -4,16 +4,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     margin:0;
     font-family: 'Fondamento', cursive;
-    background-image: url('/images/PaesaggioMedievaleAntico.png');
+    background-image: url('/images/logged_index.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 .background {
-    background-color: rgba(45, 2, 49, 0.2); /* Colore di sfondo con trasparenza */
+    background-color: rgba(45, 2, 49, 0.4); /* Colore di sfondo con trasparenza */
     width: 100vw;
     height: 100vh;
     z-index: -1; /* Assicura che il background sia dietro gli altri elementi */
@@ -40,6 +41,7 @@ body{
     height: auto;
     display: block;
 }
+
 .nav-links {
   display: flex;
   justify-content: flex-end;
@@ -64,21 +66,25 @@ body{
   color: #ffd700;
 }
 
-header {
-    position: relative;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    width: 100vw;
-    height: 100vh;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
+
+.content {
+  padding: 2rem 4rem 4rem 4rem; /* top, right, bottom, left */
+  width: 100vw;
+  min-height: 100vh;
+  color:white;
+  align-content: center;
 }
 
+
+.description h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.summary {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-bottom: 1rem;
+}
 
 
 header > * {
@@ -108,17 +114,17 @@ button:hover{
     background-color: rgba(50, 26, 54, 0.4);
     color: rgb(255, 255, 255);
 }
-section{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    padding: 20px;
-    margin: 20px;
+.personaggi {
+    color: white;
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
 }
-p{
-    max-width: 50em;
+a {
+  color: #fff;
+  transition: color 0.3s ease;
 }
-
-
+a:hover {
+  color: #ffd700;
+}
