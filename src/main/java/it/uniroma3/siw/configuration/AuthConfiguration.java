@@ -30,69 +30,80 @@ public class AuthConfiguration {
     private DataSource dataSource;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .authoritiesByUsernameQuery("SELECT username, role from credentials WHERE username=?")
-                .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
+            .dataSource(dataSource)
+            // PostgreSQL: concatena 'ROLE_' al valore di role in tabella
+            .authoritiesByUsernameQuery(
+                "SELECT username, 'ROLE_' || role AS authority " +
+                "FROM credentials WHERE username = ?"
+            )
+            .usersByUsernameQuery(
+                "SELECT username, password, 1 AS enabled " +
+                "FROM credentials WHERE username = ?"
+            );
     }
     
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    protected SecurityFilterChain configure(final HttpSecurity httpSecurity,
-                                            CustomOAuth2UserService customOAuth2UserService,
-                                            CustomOidcUserService customOidcUserService) throws Exception {
-        httpSecurity
-            .cors(cors -> cors.disable())
-            .authorizeHttpRequests(requests -> requests
-                // Pagine pubbliche e risorse statiche
-                .requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/login", "/css/**", "/images/**", "favicon.ico", "/js/**", "/webjars/**", "/uploads/**").permitAll()
-                // Registrazione e login aperti a tutti (POST)
-                .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
-                // Area amministrativa solo per admin
-                .requestMatchers("/admin/**").hasRole(ADMIN_ROLE)
-                // Area autenticata specifica per giocatori
-                .requestMatchers("/logged/giocatore/**").hasRole(GIOCATORE_ROLE)
-                // Area autenticata specifica per master
-                .requestMatchers("/logged/master/**").hasRole(MASTER_ROLE)
-                // Tutte le altre sotto /logged richiedono autenticazione
-                .requestMatchers("/logged/**").authenticated()
-                // Tutte le altre richieste devono essere autenticate
-                .anyRequest().authenticated()
-            )
-            .formLogin(login -> login
-                .loginPage("/login")
+    protected SecurityFilterChain configure(HttpSecurity http,
+                                            CustomOAuth2UserService oauth2Svc,
+                                            CustomOidcUserService oidcSvc) throws Exception {
+        http
+          .cors(cors -> cors.disable())
+          .authorizeHttpRequests(req -> req
+              .requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/login",
+                               "/css/**", "/images/**", "/js/**", "/webjars/**", "/uploads/**")
                 .permitAll()
-                .defaultSuccessUrl("/success", true)
-                .failureUrl("/login?error=true")
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .clearAuthentication(true)
+              .requestMatchers(HttpMethod.POST, "/register", "/login")
                 .permitAll()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .loginPage("/login")
-                .userInfoEndpoint(endpoints -> endpoints
-                    .userService(customOAuth2UserService)
-                    .oidcUserService(customOidcUserService)
-                )
-                .defaultSuccessUrl("/success", true)
-            );
+              .requestMatchers("/admin/**")
+                .hasRole(ADMIN_ROLE)
+              .requestMatchers("/logged/giocatore/**")
+                .hasRole(GIOCATORE_ROLE)
+              .requestMatchers("/logged/master/**")
+                .hasRole(MASTER_ROLE)
+              .requestMatchers("/logged/**")
+                .authenticated()
+              .anyRequest()
+                .authenticated()
+          )
+          .formLogin(form -> form
+              .loginPage("/login")
+              .defaultSuccessUrl("/success", true)
+              .failureUrl("/login?error=true")
+              .permitAll()
+          )
+          .logout(logout -> logout
+              .logoutUrl("/logout")
+              .logoutSuccessUrl("/")
+              .invalidateHttpSession(true)
+              .clearAuthentication(true)
+              .deleteCookies("JSESSIONID", "remember-me")
+              .permitAll()
+          )
+          .oauth2Login(oauth2 -> oauth2
+              .loginPage("/login")
+              .userInfoEndpoint(endpoints -> endpoints
+                  .userService(oauth2Svc)
+                  .oidcUserService(oidcSvc)
+              )
+              .defaultSuccessUrl("/success", true)
+          )
+          .sessionManagement(session -> session
+              .sessionFixation(fix -> fix.migrateSession())
+          );
 
-        return httpSecurity.build();
+        return http.build();
     }
 }
