@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
 
 @Service
@@ -16,9 +17,11 @@ public class AuthorizationService {
     @Autowired
     private CredentialsService credentialsService;
 
+    @Autowired
+    private SecurityUtils securityUtils;
+
     /**
      * Verifica se l'utente autenticato ha il ruolo ADMIN.
-     * Gli utenti OAuth2 non sono salvati nel DB e quindi sono trattati come utenti normali.
      */
     public boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -45,56 +48,26 @@ public class AuthorizationService {
 
         /**
      * Verifica se l'utente autenticato ha il ruolo MASTER.
-     * Gli utenti OAuth2 non sono salvati nel DB e quindi sono trattati come utenti normali.
      */
     public boolean isMaster() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
+        User user = securityUtils.getCurrentUser();
+        if (user == null) {
             return false;
         }
-
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            // Utente OAuth2 → trattato come utente normale, non admin
-            return false;
-        }
-
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            String username = userDetails.getUsername();
-            Credentials credentials = credentialsService.getCredentials(username);
-            return credentials != null && Credentials.MASTER_ROLE.equals(credentials.getRole());
-        }
-
-        return false;
+        Credentials credentials = credentialsService.findByUserId(user.getId()).orElse(null);
+        return credentials != null && Credentials.MASTER_ROLE.equals(credentials.getRole());
     }
 
         /**
      * Verifica se l'utente autenticato ha il ruolo GIOCATORE.
-     * Gli utenti OAuth2 non sono salvati nel DB e quindi sono trattati come utenti normali.
      */
     public boolean isGiocatore() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
+        User user = securityUtils.getCurrentUser();
+        if (user == null) {
             return false;
         }
-
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            // Utente OAuth2 → trattato come utente normale, non admin
-            return false;
-        }
-
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            String username = userDetails.getUsername();
-            Credentials credentials = credentialsService.getCredentials(username);
-            return credentials != null && Credentials.GIOCATORE_ROLE.equals(credentials.getRole());
-        }
-
-        return false;
+        Credentials credentials = credentialsService.findByUserId(user.getId()).orElse(null);
+        return credentials != null && Credentials.GIOCATORE_ROLE.equals(credentials.getRole());
     }
 
 }
