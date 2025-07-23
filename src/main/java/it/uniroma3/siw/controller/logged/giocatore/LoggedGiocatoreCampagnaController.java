@@ -90,6 +90,11 @@ public class LoggedGiocatoreCampagnaController {
             redirectAttrs.addFlashAttribute("infoMessage", "Hai già aderito a questa campagna.");
             return "redirect:/logged/giocatore/campagna";
         }
+        Long userCorrentId = securityUtils.getCurrentUser().getId();
+        if(userCorrentId.equals(campagna.getMaster().getId())){
+            redirectAttrs.addFlashAttribute("infoMessage", "Non puoi partecipare a una campagna che hai creato");
+            return "redirect:/logged/giocatore/campagna";
+        }
 
         // 4. Mostra il form
         model.addAttribute("campagna", campagna);
