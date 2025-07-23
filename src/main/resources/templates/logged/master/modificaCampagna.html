@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <h1>Modifica Campagna</h1>
-        <form action="/modificaCampagna" method="post" enctype="multipart/form-data">
+        <form th:action="${campagna.id} != null ? @{/logged/master/campagna/{id}(id=${campagna.id})} : @{/logged/master/campagna}" 
+        method="post" 
+        th:object="${campagna}"
+        enctype="multipart/form-data">
             <div class="input-group">
                 <label for="nome">Nome Campagna</label>
                 <span>
@@ -25,7 +28,7 @@
             <div class="input-group">
                 <label for="immagine">Mappa:</label>
                 <span>
-                <input type="file" id="immagine" name="immagine">
+                <input type="file" id="immagine" name="campagnaImage" accept="image/*">
                 </span>
             </div>
             <button type="submit">Salva Modifiche</button>

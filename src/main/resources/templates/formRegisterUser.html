@@ -53,6 +53,14 @@
             <button type="submit">Registrati</button>
         </form>
         <p>Hai già un account? <a href="/login">Accedi</a></p>
+        <div>
+        <div class="google-github">
+                <p>Oppure registrati con:</p>
+                <a th:href="@{/oauth2/authorization/github}" >Github</a>
+                <a th:href="@{/oauth2/authorization/google}" >Google</a>
+            </div>
     </div>
+    </div>
+    
 </body>
 </html>

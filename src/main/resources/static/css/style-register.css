@@ -41,7 +41,7 @@ body::before {
 
 h1 {
     font-size: 2.5em;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
     color: white;
 }
@@ -151,4 +151,12 @@ input[type="file"]::file-selector-button {
 }
 input[type="file"]::file-selector-button:hover {
   background: rgba(50, 26, 54, 0.685);
+}
+
+.google-github{
+    text-align: center;
+    font-size: 1.5rem;
+}
+.google-github p{
+    font-family: "Fondamento", cursive;
 }

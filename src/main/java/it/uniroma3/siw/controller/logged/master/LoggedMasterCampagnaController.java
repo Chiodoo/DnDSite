@@ -81,15 +81,12 @@ public class LoggedMasterCampagnaController {
     public String updateCampagna(@PathVariable Long id, 
                                 @ModelAttribute("campagna") Campagna campagna, 
                                 BindingResult result,
-                                @RequestParam(value="image", required =false) MultipartFile imageFile,
+                                @RequestParam(value="campagnaImage", required =false) MultipartFile imageFile,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Errore durante l'aggiornamento della campagna.");
             return "redirect:/logged/master/modificaCampagna"; // o pagina 404
         }
-        campagna.setId(id);
-        campagna.setImage(null);
-
         this.campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
     }
