@@ -128,3 +128,41 @@ a {
 a:hover {
   color: #ffd700;
 }
+.personaggio-list {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: nowrap; /* oppure wrap se vuoi più righe */
+}
+
+.personaggio-card {
+    flex: 0 0 180px; /* larghezza fissa di 180px */
+    height: 250px; /* altezza fissa */
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.personaggio-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.personaggio-card h2 {
+    font-size: 1.2rem;
+    flex-grow: 1; /* permette al titolo di occupare lo spazio rimasto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.personaggio-card img:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}

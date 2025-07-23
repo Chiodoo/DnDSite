@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style_form.css">
+    <link rel="stylesheet" href="/css/style-form.css">
     <title>Nuovo Personaggio</title>
 </head>
 <body>
@@ -23,38 +23,59 @@
             <input type="hidden" th:field="*{version}" />
 
             <div class="input-group">
-                <label>Nome:</label>
-                <input type="text" placeholder="nome" required th:field="*{nome}" />
-                <p th:if="${#fields.hasErrors('nome')}" class="error-message" th:errors="*{nome}">Nome non valido</p>
-            </div>
-            <div class="input-group">
-                <label>Razza:</label>
-                <input type="text" placeholder="razza" required th:field="*{razza}" />
-                <p th:if="${#fields.hasErrors('razza')}" class="error-message" th:errors="*{razza}">Razza non valida</p>
-            </div>
-            <div class="input-group">
-                <label>Classe:</label>
-                <input type="text" placeholder="classe" required th:field="*{classe}" />
-                <p th:if="${#fields.hasErrors('classe')}" class="error-message" th:errors="*{classe}">Classe non valida</p>
-            </div>
-            <div class="input-group">
-                <label>Livello:</label>
-                <input type="number" placeholder="livello" required th:field="*{livello}" />
-                <p th:if="${#fields.hasErrors('livello')}" class="error-message" th:errors="*{livello}">Livello non valido</p>
-            </div>
-            <div class="input-group">
-                <label>Descrizione:</label>
-                <textarea placeholder="descrizione" th:field="*{descrizione}"></textarea>
-                <p th:if="${#fields.hasErrors('descrizione')}" class="error-message" th:errors="*{descrizione}">Descrizione non valida</p>
-            </div>
-            <div class="input-group">
-                <label>Immagine:</label>
-                <input type="file" name="personaggioImage" accept="image/*" />
+                <label for="nome">Nome:</label>
+                <span>
+                    <input type="text" id="nome" placeholder="nome" required th:field="*{nome}" />
+                </span>
+                <p th:if="${#fields.hasErrors('nome')}" class="error-message" th:errors="*{nome}"></p>
             </div>
 
-            <button type="submit">Crea Personaggio</button>
-            <button type="button" onclick="location.href='/logged/giocatore/personaggi'">Annulla</button>
+            <div class="input-group">
+                <label for="razza">Razza:</label>
+                <span>
+                    <input type="text" id="razza" placeholder="razza" required th:field="*{razza}" />
+                </span>
+                <p th:if="${#fields.hasErrors('razza')}" class="error-message" th:errors="*{razza}"></p>
+            </div>
+
+            <div class="input-group">
+                <label for="classe">Classe:</label>
+                <span>
+                    <input type="text" id="classe" placeholder="classe" required th:field="*{classe}" />
+                </span>
+                <p th:if="${#fields.hasErrors('classe')}" class="error-message" th:errors="*{classe}"></p>
+            </div>
+
+            <div class="input-group">
+                <label for="livello">Livello:</label>
+                <span>
+                    <input type="number" id="livello" placeholder="livello" required th:field="*{livello}" />
+                </span>
+                <p th:if="${#fields.hasErrors('livello')}" class="error-message" th:errors="*{livello}"></p>
+            </div>
+
+            <div class="input-group">
+                <label for="descrizione">Descrizione:</label>
+                <span>
+                    <textarea id="descrizione" placeholder="descrizione" th:field="*{descrizione}"></textarea>
+                </span>
+                <p th:if="${#fields.hasErrors('descrizione')}" class="error-message" th:errors="*{descrizione}"></p>
+            </div>
+
+            <div class="input-group">
+                <label for="personaggioImage">Immagine:</label>
+                <span>
+                <input type="file" id="personaggioImage" name="personaggioImage" accept="image/*" />
+                </span>
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Crea Personaggio</button>
+                <button type="button" onclick="location.href='/logged/giocatore/personaggi'">Annulla</button>
+            </div>
         </form>
     </div>
+
+
 </body>
 </html>

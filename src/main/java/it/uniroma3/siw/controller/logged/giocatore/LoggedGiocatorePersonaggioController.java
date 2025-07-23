@@ -80,6 +80,21 @@ public class LoggedGiocatorePersonaggioController {
         return "logged/giocatore/giocPersonaggio";
     }
 
+    @GetMapping("/campagna/{id}/personaggio/{personaggioId}")
+    public String showPersonaggioDaCampagna(@PathVariable Long id,
+                                            @PathVariable Long personaggioId,
+                                            Model model,
+                                            RedirectAttributes redirectAttrs) {
+        Optional<Personaggio> opt = personaggioService.findById(personaggioId);
+        if (!opt.isPresent() || !opt.get().getUser().getId().equals(securityUtils.getCurrentUser().getId())) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Personaggio non trovato o non autorizzato.");
+            return "redirect:/logged/giocatore/campagna/" + id;
+        }
+        model.addAttribute("personaggio", opt.get());
+        model.addAttribute("campagnaId", id);
+        return "logged/giocatore/giocPersonaggio";
+    }
+    
     // EDIT FORM: mostra il form pre‐popolato
     @GetMapping("/personaggio/{id}/edit")
     public String editPersonaggio(@PathVariable Long id,

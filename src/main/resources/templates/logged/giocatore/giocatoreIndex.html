@@ -29,18 +29,19 @@
       </nav>
     </div>
 
-    <!-- FLASH MESSAGES -->
-    <div class="container-flash" style="padding: 1rem; text-align: center;">
-      <div th:if="${successMessage}" class="alert alert-success" role="alert"
-           th:text="${successMessage}"></div>
-      <div th:if="${infoMessage}" class="alert alert-info" role="alert"
-           th:text="${infoMessage}"></div>
-      <div th:if="${errorMessage}" class="alert alert-danger" role="alert"
-           th:text="${errorMessage}"></div>
-    </div>
-
-    <main>    
+    
+    <main>   
+ 
       <header>
+            <!-- FLASH MESSAGES -->
+        <div class="container-flash" style="padding: 1rem; text-align: center;">
+          <div th:if="${successMessage}" class="alert alert-success" role="alert"
+              th:text="${successMessage}"></div>
+          <div th:if="${infoMessage}" class="alert alert-info" role="alert"
+              th:text="${infoMessage}"></div>
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert"
+              th:text="${errorMessage}"></div>
+        </div>
         <h1>Benvenuto Giocatore</h1>
         <button onclick="window.location.href='/logged/giocatore/campagna'">Partecipa ad una campagna</button>
         <h4>Oppure</h4>

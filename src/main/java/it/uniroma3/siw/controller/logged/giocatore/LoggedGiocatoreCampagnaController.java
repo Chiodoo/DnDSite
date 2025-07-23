@@ -36,13 +36,22 @@ public class LoggedGiocatoreCampagnaController {
     @GetMapping("/campagna")
     public String showGiocatoreCampagne(Model model, RedirectAttributes redirectAttrs){
         Long userId = securityUtils.getCurrentUser().getId();
+        
         if (personaggioService.findByUserId(userId).isEmpty()) {
             redirectAttrs.addFlashAttribute("errorMessage", "Non puoi partecipare a campagne senza personaggi. Prima crea il tuo personaggio.");
             return "redirect:/logged/giocatore/personaggio/new";
         }
+
+        // Campagne totali
         model.addAttribute("campagne", campagnaService.findAll());
+
+        // Campagne a cui partecipa il giocatore
+        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByUserId(userId);
+        model.addAttribute("campagnePartecipate", campagnePartecipate);
+
         return "logged/giocatore/giocCampagne";
     }
+
 
     @GetMapping("/campagna/{id}")
     public String getCampagna(@PathVariable Long id, Model model) {
@@ -52,21 +61,42 @@ public class LoggedGiocatoreCampagnaController {
             return "redirect:/logged/giocatore/campagna";
         }
         model.addAttribute("campagna", optionalCampagna.get());
-        return "logged/giocatore/giocCampagne";
+        return "logged/giocatore/giocCampagna";
     }
     
-    @GetMapping("/partecipaCampagna/{id}")
-    public String partecipaCampagna(@PathVariable Long id, RedirectAttributes redirectAttrs, Model model){
-            Long userId = securityUtils.getCurrentUser().getId();
-            List<Personaggio> personaggi = personaggioService.findByUserId(userId);
-            if (personaggi.isEmpty()) {
-                redirectAttrs.addFlashAttribute("errorMessage", "Non puoi partecipare a campagne senza personaggi. Prima crea il tuo personaggio.");
-                return "redirect:/logged/giocatore/personaggio/new";
-            }
-            model.addAttribute("campagna", campagnaService.findById(id).get());
-            model.addAttribute("personaggi", personaggi);
-            return "logged/giocatore/partecipaForm";
+   @GetMapping("/partecipaCampagna/{id}")
+    public String partecipaCampagna(@PathVariable Long id, RedirectAttributes redirectAttrs, Model model) {
+        Long userId = securityUtils.getCurrentUser().getId();
+
+        // 1. Controllo: ha personaggi?
+        List<Personaggio> personaggi = personaggioService.findByUserId(userId);
+        if (personaggi.isEmpty()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Non puoi partecipare a campagne senza personaggi. Prima crea il tuo personaggio.");
+            return "redirect:/logged/giocatore/personaggio/new";
+        }
+
+        // 2. Recupera campagna
+        Optional<Campagna> optionalCampagna = campagnaService.findById(id);
+        if (optionalCampagna.isEmpty()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Campagna non trovata.");
+            return "redirect:/logged/giocatore/campagna";
+        }
+
+        Campagna campagna = optionalCampagna.get();
+
+        // 3. Controllo: partecipa già?
+        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByUserId(userId);
+        if (campagnePartecipate.contains(campagna)) {
+            redirectAttrs.addFlashAttribute("infoMessage", "Hai già aderito a questa campagna.");
+            return "redirect:/logged/giocatore/campagna";
+        }
+
+        // 4. Mostra il form
+        model.addAttribute("campagna", campagna);
+        model.addAttribute("personaggi", personaggi);
+        return "logged/giocatore/partecipaForm";
     }
+
 
     @PostMapping("/partecipaCampagna/{campagnaId}")
     public String processPartecipaCampagna(@PathVariable Long campagnaId,

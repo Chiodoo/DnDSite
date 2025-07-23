@@ -32,7 +32,6 @@
             <h2 th:text="${campagna.nome}">Nome Campagna</h2>
             <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
 
-            <a th:href="@{/logged/giocatore/campagna/{id}/formNewPersonaggio(id=${campagna.id})}">Aggiungi un nuovo personaggio</a>
             <div class="personaggi-section" th:if="${campagna.personaggi != null and #lists.size(campagna.personaggi)>0}">
                 <h3>Personaggi della Campagna</h3>
 
