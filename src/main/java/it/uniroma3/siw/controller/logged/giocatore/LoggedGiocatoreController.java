@@ -8,9 +8,11 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import it.uniroma3.siw.controller.CurrentUserDTO;
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +33,9 @@ public class LoggedGiocatoreController {
     @Autowired
     private CredentialsService credentialsService;
 
+    @Autowired
+    private SecurityUtils securityUtils;
+
     LoggedGiocatoreController(UserService userService) {
         this.userService = userService;
     }
@@ -42,7 +47,8 @@ public class LoggedGiocatoreController {
 
     @GetMapping("/account")
     public String getAccount(Model model) {
-        Credentials credentials = credentialsService.getCurrentCredentials();
+
+        Credentials credentials = credentialsService.findByUserId(securityUtils.getCurrentUser().getId()).orElse(null);
         if (credentials == null) {
             return "redirect:/logged/giocatore/giocatoreIndex";
         }
@@ -52,10 +58,16 @@ public class LoggedGiocatoreController {
     }
 
     @GetMapping("/modificaAccount")
-    public String getModificaAccount(Model model) {
-        Credentials credentials = credentialsService.getCurrentCredentials();
+    public String getModificaAccount(Model model, RedirectAttributes redirectAttrs, @ModelAttribute("userDetails") CurrentUserDTO currentUser) {
+        Credentials credentials = credentialsService.findByUserId(securityUtils.getCurrentUser().getId()).orElse(null);
         if (credentials == null) {
             return "redirect:/logged/giocatore/giocatoreIndex";
+        }
+
+        if (currentUser != null && currentUser.isOAuth2()) {
+            redirectAttrs.addFlashAttribute("errorMessage",
+                "Non puoi modificare le credenziali di un account OAuth2.");
+            return "redirect:/logged/giocatore/account";
         }
 
         model.addAttribute("credentials", credentials);
@@ -64,13 +76,14 @@ public class LoggedGiocatoreController {
 
     @PostMapping("/account")
     public String updateAccount(@ModelAttribute("credentials") Credentials updatedCredentials,
-                                Model model) {
+                                Model model, RedirectAttributes redirectAttrs) {
         Credentials current = credentialsService.getCurrentCredentials();
 
         if (current == null || !updatedCredentials.getId().equals(current.getId())) {
-            model.addAttribute("error", "Errore durante l'aggiornamento delle credenziali.");
+            redirectAttrs.addFlashAttribute("errorMessage", "Errore durante l'aggiornamento delle credenziali.");
             return "redirect:/logged/giocatore/account";
         }
+
         userService.updateUser(updatedCredentials.getUser());
         credentialsService.updateCredentials(updatedCredentials);
         //riautentica l'utente con le nuove credenziali
