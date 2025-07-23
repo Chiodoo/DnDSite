@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.uniroma3.siw.model.Nota;
 
-public interface NoteRepository extends CrudRepository<Nota, Long>{
+public interface NotaRepository extends CrudRepository<Nota, Long>{
 
 }
