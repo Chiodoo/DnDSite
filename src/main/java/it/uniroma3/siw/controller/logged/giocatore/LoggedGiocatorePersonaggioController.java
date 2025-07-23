@@ -1,160 +1,144 @@
 package it.uniroma3.siw.controller.logged.giocatore;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import it.uniroma3.siw.model.*;
-import it.uniroma3.siw.service.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import it.uniroma3.siw.model.Personaggio;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.security.SecurityUtils;
+import it.uniroma3.siw.service.PersonaggioService;
 
 @Controller
 @RequestMapping("/logged/giocatore")
 public class LoggedGiocatorePersonaggioController {
-    
+
     @Autowired
     private PersonaggioService personaggioService;
+
     @Autowired
-    private CampagnaService campagnaService;
+    private SecurityUtils securityUtils;
 
-
-    @GetMapping("campagna/{id}/personaggio")
-    public String showGiocatorePersonaggi(@PathVariable Long id, Model model) {
-        Optional<Campagna> optionalCampagna = campagnaService.findById(id);
-        if (!optionalCampagna.isPresent()) {
-            model.addAttribute("errorMessage", "Campagna non trovata.");
-            return "redirect:/logged/giocatore/campagna"; // o pagina 404
-        }
-        Campagna campagna = optionalCampagna.get();
-        model.addAttribute("campagna", campagna);
-        model.addAttribute("personaggi", personaggioService.findbyCampagna(campagna));
+    // LIST: mostra tutti i personaggi dell’utente
+    @GetMapping("/personaggi")
+    public String showUserPersonaggi(Model model) {
+        User user = securityUtils.getCurrentUser();
+        List<Personaggio> personaggi = personaggioService.findByUserId(user.getId());
+        model.addAttribute("personaggi", personaggi);
         return "logged/giocatore/giocPersonaggi";
     }
 
-    @GetMapping("/campagna/{id}/personaggio/{personaggioId}")
-    public String getPersonaggio(@PathVariable Long id,
-                                 @PathVariable Long personaggioId,
-                                 Model model) {
-        Optional<Campagna> optionalCampagna = campagnaService.findById(id);
-        if (!optionalCampagna.isPresent()) {
-            model.addAttribute("errorMessage", "Campagna non trovata.");
-            return "redirect:/logged/giocatore/campagna"; // o pagina 404
-        }
-        Campagna campagna = optionalCampagna.get();
-        model.addAttribute("campagna", campagna);
-        Optional<Personaggio> optionalPersonaggio = personaggioService.findById(personaggioId);
-        if (!optionalPersonaggio.isPresent()) {
-            model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/logged/giocatore/campagna/" + id;
-        }
-        model.addAttribute("personaggio", optionalPersonaggio.get());
-        model.addAttribute("campagnaId", id);
-        return "logged/giocatore/giocPersonaggio";
-    }
-
-    @GetMapping("/campagna/{id}/formNewPersonaggio")
-    public String getFormNewPersonaggio(@PathVariable Long id, Model model) {
+    // CREATE FORM: mostra il form vuoto
+    @GetMapping("/personaggio/new")
+    public String getFormNewPersonaggio(Model model,
+                                        @ModelAttribute("errorMessage") String errorMessage) {
         model.addAttribute("personaggio", new Personaggio());
-        model.addAttribute("campagnaId", id); // utile per collegare il personaggio alla campagna
+        // il template leggerà l’eventuale flash errorMessage
         return "logged/giocatore/formNewPersonaggio";
     }
 
-
-    @GetMapping("campagna/{id}/deletePersonaggio/{personaggioId}")
-    public String deletePersonaggio(@PathVariable Long id,@PathVariable Long personaggioId, Model model) {
-        Optional<Personaggio> personaggioOpt = personaggioService.findById(personaggioId);
-        if (!personaggioOpt.isPresent()) {
-            model.addAttribute("errorMessage", "Autore non trovato.");
-            return "redirect:/logged/giocatore/campagna/"+id+"/personaggio"; // o pagina 404
-        }
-        Personaggio personaggio = personaggioOpt.get();
-        
-        if(personaggio.getImage() != null) {
-            String imagePath = personaggio.getImage().getPath();
-            java.io.File imageFile = new java.io.File("." + imagePath); // Assicurati che il path sia corretto
-            if (imageFile.exists()) {
-                imageFile.delete(); // Cancella il file immagine fisico
-            }
-        }
-        // Cancella l'autore dal database
-        this.personaggioService.deleteById(personaggioId);
-
-        return "redirect:/logged/giocatore/campagna/"+id;
-    }
-
-
-    @PostMapping("/campagna/{id}/formNewPersonaggio")
-    public String addPersonaggioToCampagna(@PathVariable Long id,
-                                        @ModelAttribute("personaggio") Personaggio personaggio,
-                                        @RequestParam("personaggioImage") MultipartFile file,
-                                        BindingResult result,
-                                        Model model) throws IOException {
+    // CREATE ACTION: salva il nuovo personaggio
+    @PostMapping("/personaggio/new")
+    public String addPersonaggio(@ModelAttribute("personaggio") Personaggio personaggio,
+                                 @RequestParam("personaggioImage") MultipartFile file,
+                                 BindingResult result,
+                                 RedirectAttributes redirectAttrs) throws IOException {
         if (result.hasErrors()) {
-            model.addAttribute("campagnaId", id);
-            return "logged/giocatore/campagna/formNewPersonaggio";
+            return "logged/giocatore/formNewPersonaggio";
         }
-
-        // Recupera la campagna dal database
-        Optional<Campagna> optionalCampagna = campagnaService.findById(id);
-        if (!optionalCampagna.isPresent()) {
-            return "redirect:/errore"; // gestisci l'errore come preferisci
-        }
-        Campagna campagna = optionalCampagna.get();
-        // Aggiungi la campagna alla lista del personaggio
-        personaggio.getCampagne().add(campagna);
-
-        // Salva il personaggio con l'immagine
+        User user = securityUtils.getCurrentUser();
+        personaggio.setUser(user);
         personaggioService.saveWithImage(personaggio, file);
-
-        return "redirect:/logged/giocatore/campagna/" + id ;
+        return "redirect:/logged/giocatore/personaggi";
     }
 
-
-
-    @PostMapping("campagna/{id}/personaggio/{personaggioId}")
-    public String updatePersonaggio(@PathVariable Long id,
-                            @PathVariable Long personaggioId,
-                            @ModelAttribute("author") Personaggio personaggio,
-                            @RequestParam(value = "personaggioImage", required = false) MultipartFile file,
-                            BindingResult result,
-                            Model model) throws IOException {
-        if (result.hasErrors()) {
-            model.addAttribute("errorMessage", "Errore durante l'aggiornamento del personaggio.");
-            return "/logged/giocatore/modificaPersonaggio";
+    // VIEW: mostra i dettagli di un singolo personaggio
+    @GetMapping("/personaggio/{id}")
+    public String viewPersonaggio(@PathVariable Long id,
+                                  Model model,
+                                  RedirectAttributes redirectAttrs) {
+        Optional<Personaggio> opt = personaggioService.findById(id);
+        if (!opt.isPresent() || !opt.get().getUser().getId().equals(securityUtils.getCurrentUser().getId())) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Personaggio non trovato o non autorizzato.");
+            return "redirect:/logged/giocatore/personaggi";
         }
-
-        // Opzionale: setta l'ID per sicurezza
-        personaggio.setId(personaggioId);
-        personaggio.setImage(null); // evita errori di binding su image
-        
-        // Usa il metodo del servizio per gestire personaggio e immagine
-        this.personaggioService.saveWithImage(personaggio, file);
-        return "redirect:/logged/giocatore/campagna/"+id;
+        model.addAttribute("personaggio", opt.get());
+        return "logged/giocatore/giocPersonaggio";
     }
 
-   
-
-    @GetMapping("/campagna/{id}/modificaPersonaggio/{personaggioId}")
-    public String modificaPersonaggio(@PathVariable Long id, @PathVariable Long personaggioId, Model model) {
-        Optional<Personaggio> optionalPersonaggio = this.personaggioService.findById(personaggioId);
-        if (!optionalPersonaggio.isPresent()) {
-            model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/logged/giocatore/campagna/"+id;
+    // EDIT FORM: mostra il form pre‐popolato
+    @GetMapping("/personaggio/{id}/edit")
+    public String editPersonaggio(@PathVariable Long id,
+                                  Model model,
+                                  RedirectAttributes redirectAttrs) {
+        Optional<Personaggio> opt = personaggioService.findById(id);
+        if (!opt.isPresent() || !opt.get().getUser().getId().equals(securityUtils.getCurrentUser().getId())) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Personaggio non trovato o non autorizzato.");
+            return "redirect:/logged/giocatore/personaggi";
         }
-        model.addAttribute("personaggio", optionalPersonaggio.get());
-        model.addAttribute("campagnaId", id); // utile per il form
+        model.addAttribute("personaggio", opt.get());
         return "logged/giocatore/modificaPersonaggio";
     }
-    
+
+    // UPDATE ACTION: salva le modifiche
+    @PostMapping("/personaggio/{id}/edit")
+    public String updatePersonaggio(@PathVariable Long id,
+                                    @ModelAttribute("personaggio") Personaggio personaggio,
+                                    @RequestParam(value = "personaggioImage", required = false) MultipartFile file,
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttrs) throws IOException {
+        if (result.hasErrors()) {
+            return "logged/giocatore/modificaPersonaggio";
+        }
+        Optional<Personaggio> opt = personaggioService.findById(id);
+        if (!opt.isPresent() || !opt.get().getUser().getId().equals(securityUtils.getCurrentUser().getId())) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Personaggio non trovato o non autorizzato.");
+            return "redirect:/logged/giocatore/personaggi";
+        }
+        Personaggio existing = opt.get();
+        // aggiorno i campi
+        existing.setNome(personaggio.getNome());
+        existing.setRazza(personaggio.getRazza());
+        existing.setClasse(personaggio.getClasse());
+        existing.setLivello(personaggio.getLivello());
+        existing.setDescrizione(personaggio.getDescrizione());
+        personaggioService.saveWithImage(existing, file);
+        return "redirect:/logged/giocatore/personaggi";
+    }
+
+    // DELETE: rimuove personaggio + file immagine
+    @GetMapping("/personaggio/{id}/delete")
+    public String deletePersonaggio(@PathVariable Long id,
+                                    RedirectAttributes redirectAttrs) {
+        Optional<Personaggio> opt = personaggioService.findById(id);
+        if (!opt.isPresent() || !opt.get().getUser().getId().equals(securityUtils.getCurrentUser().getId())) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Personaggio non trovato o non autorizzato.");
+            return "redirect:/logged/giocatore/personaggi";
+        }
+        Personaggio personaggio = opt.get();
+        if (personaggio.getImage() != null) {
+            String imagePath = personaggio.getImage().getPath();
+            File imageFile = new File("." + imagePath);
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+        }
+        personaggioService.deleteById(id);
+        return "redirect:/logged/giocatore/personaggi";
+    }
+
 }

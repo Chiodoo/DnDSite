@@ -4,70 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style_form.css">
-    <title>New Personaggio</title>
+    <title>Nuovo Personaggio</title>
 </head>
 <body>
     <div class="container">
-        <h1>Aggiungi un Nuovo Personaggio</h1>
-        <form th:action="${personaggio.id} != null ?
-                          @{/logged/giocatore/campagna/{campagnaId}/modificaPersonaggio/{id}(campagnaId=${campagnaId}, id=${personaggio.id})} :
-                          @{/logged/giocatore/campagna/{campagnaId}/formNewPersonaggio(campagnaId=${campagnaId})}"
-            method="POST"
-            th:object="${personaggio}"
-            enctype="multipart/form-data">
-            <!-- Hidden fields for id and version -->
+        <h1>Crea un Nuovo Personaggio</h1>
+
+        <!-- Flash message per errori -->
+        <p th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></p>
+
+        <form th:action="@{/logged/giocatore/personaggio/new}"
+              method="POST"
+              th:object="${personaggio}"
+              enctype="multipart/form-data">
+
+            <!-- Hidden fields per id e version (utile per l’update) -->
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{version}" />
 
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
             <div class="input-group">
                 <label>Nome:</label>
-                <span><input type="text" id="nome" placeholder="nome" required th:field="*{nome}" /></span>
-                <span th:if="${#fields.hasErrors('nome')}" class="error-message">
-                    <p th:errors="*{nome}">Nome non valido</p>
-                </span>
+                <input type="text" placeholder="nome" required th:field="*{nome}" />
+                <p th:if="${#fields.hasErrors('nome')}" class="error-message" th:errors="*{nome}">Nome non valido</p>
             </div>
             <div class="input-group">
                 <label>Razza:</label>
-                <span><input type="text" id="razza" placeholder="razza" required th:field="*{razza}" /></span>
-                <span th:if="${#fields.hasErrors('razza')}" class="error-message">
-                    <p th:errors="*{razza}">Razza non valida</p>
-                </span>
+                <input type="text" placeholder="razza" required th:field="*{razza}" />
+                <p th:if="${#fields.hasErrors('razza')}" class="error-message" th:errors="*{razza}">Razza non valida</p>
             </div>
             <div class="input-group">
                 <label>Classe:</label>
-                <span><input type="text" id="classe" placeholder="classe" required th:field="*{classe}" /></span>
-                <span th:if="${#fields.hasErrors('classe')}" class="error-message">
-                    <p th:errors="*{classe}">Classe non valida</p>
-                </span>
+                <input type="text" placeholder="classe" required th:field="*{classe}" />
+                <p th:if="${#fields.hasErrors('classe')}" class="error-message" th:errors="*{classe}">Classe non valida</p>
             </div>
             <div class="input-group">
                 <label>Livello:</label>
-                <span><input type="number" id="livello" placeholder="livello" required th:field="*{livello}" /></span>
-                <span th:if="${#fields.hasErrors('livello')}" class="error-message">
-                    <p th:errors="*{livello}">Livello non valido</p>
-                </span>
+                <input type="number" placeholder="livello" required th:field="*{livello}" />
+                <p th:if="${#fields.hasErrors('livello')}" class="error-message" th:errors="*{livello}">Livello non valido</p>
             </div>
             <div class="input-group">
                 <label>Descrizione:</label>
-                <span><textarea id="descrizione" placeholder="descrizione" th:field="*{descrizione}"></textarea></span>
-                <span th:if="${#fields.hasErrors('descrizione')}" class="error-message">
-                    <p th:errors="*{descrizione}">Descrizione non valida</p>
-                </span>
+                <textarea placeholder="descrizione" th:field="*{descrizione}"></textarea>
+                <p th:if="${#fields.hasErrors('descrizione')}" class="error-message" th:errors="*{descrizione}">Descrizione non valida</p>
             </div>
-            <!-- Immagini -->
             <div class="input-group">
-                <label for="personaggio">Immagine:</label>
-                <input type="file" id="personaggioImage" name="personaggioImage" accept="image/*" />
+                <label>Immagine:</label>
+                <input type="file" name="personaggioImage" accept="image/*" />
             </div>
 
-            <button type="submit">Aggiungi Personaggio</button>
+            <button type="submit">Crea Personaggio</button>
+            <button type="button" onclick="location.href='/logged/giocatore/personaggi'">Annulla</button>
         </form>
-        
-        <button type="button"
-                th:onclick="'location.href=\'/logged/giocatore/campagna/' + ${campagnaId} + '/personaggi\''">
-            Annulla
-        </button>
     </div>
 </body>
 </html>
