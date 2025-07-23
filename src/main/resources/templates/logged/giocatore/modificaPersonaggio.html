@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style_form.css">
+    <link rel="stylesheet" href="/css/style-form.css">
     <title>Modifica Personaggio</title>
 </head>
 <body>
@@ -27,37 +27,49 @@
 
             <div class="input-group">
                 <label for="nome">Nome:</label>
+                <span>
                 <input type="text" id="nome" placeholder="nome" required th:field="*{nome}" />
+                </span>
                 <p th:if="${#fields.hasErrors('nome')}" class="error-message" th:errors="*{nome}">Nome non valido</p>
             </div>
 
             <div class="input-group">
                 <label for="razza">Razza:</label>
+                <span>
                 <input type="text" id="razza" placeholder="razza" required th:field="*{razza}" />
+                </span>
                 <p th:if="${#fields.hasErrors('razza')}" class="error-message" th:errors="*{razza}">Razza non valida</p>
             </div>
 
             <div class="input-group">
                 <label for="classe">Classe:</label>
+                <span>
                 <input type="text" id="classe" placeholder="classe" required th:field="*{classe}" />
+                </span>
                 <p th:if="${#fields.hasErrors('classe')}" class="error-message" th:errors="*{classe}">Classe non valida</p>
             </div>
 
             <div class="input-group">
                 <label for="livello">Livello:</label>
+                <span>
                 <input type="number" id="livello" placeholder="livello" required th:field="*{livello}" />
+                </span>
                 <p th:if="${#fields.hasErrors('livello')}" class="error-message" th:errors="*{livello}">Livello non valido</p>
             </div>
 
             <div class="input-group">
                 <label for="descrizione">Descrizione:</label>
+                <span>
                 <textarea id="descrizione" placeholder="descrizione" th:field="*{descrizione}"></textarea>
+                </span>
                 <p th:if="${#fields.hasErrors('descrizione')}" class="error-message" th:errors="*{descrizione}">Descrizione non valida</p>
             </div>
 
             <div class="input-group">
                 <label for="personaggioImage">Immagine:</label>
+                <span>
                 <input type="file" id="personaggioImage" name="personaggioImage" accept="image/*" />
+                </span>
             </div>
 
             <button type="submit">Salva Modifiche</button>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style_personaggio.css">
+    <link rel="stylesheet" href="/css/style-personaggio.css">
     <title>Dettaglio Personaggio</title>
 </head>
 <body>
@@ -36,11 +36,14 @@
         <p>Livello: <span th:text="${personaggio.livello}">Livello</span></p>
         <p>Descrizione:</p>
         <p th:text="${personaggio.descrizione}">Descrizione del personaggio</p>
-
+      
         <div th:if="${personaggio.image != null}">
             <img th:src="@{'/uploads/' + ${personaggio.image.path}}"
                  alt="Immagine Personaggio"
                  width="150" />
+        </div>
+        <div th:if="${personaggio.image == null}">
+            <img src="/images/default_personaggio.jpg" alt="Immagine di default" width="150">
         </div>
 
         <div class="actions">

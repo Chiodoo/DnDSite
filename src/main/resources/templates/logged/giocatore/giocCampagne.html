@@ -41,8 +41,15 @@
                 <a th:href="@{'/logged/giocatore/campagna/' + ${campagna.id}}">
                     <h2 th:text="${campagna.nome}">Nome Campagna</h2>
                     <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
-                    <p><a th:href="@{'/logged/giocatore/partecipaCampagna/' + ${campagna.id}}">Partecipa a questa campagna</a></p>
                 </a>
+
+                <!-- Controllo partecipazione -->
+                <div th:if="${#lists.contains(campagnePartecipate, campagna)}">
+                    <span class="disabled">Hai già partecipato</span>
+                </div>
+                <div th:unless="${#lists.contains(campagnePartecipate, campagna)}">
+                    <a th:href="@{'/logged/giocatore/partecipaCampagna/' + ${campagna.id}}">Partecipa a questa campagna</a>
+                </div>
             </div>
         </div>
         <div id="no-campagna" th:if="${campagne.isEmpty()}">
