@@ -28,6 +28,12 @@
                     <p th:errors="*{descrizione}">Descrizione non valida</p>
                 </span>
             </div>
+            <div class="input-group">
+                <label for="immagine">Mappa:</label>
+                <span>
+                <input type="file" id="immagine" name="immagine">
+                </span>
+            </div>
             <button type="submit">Crea Campagna</button>
         </form>
         <button onclick="window.location.href='/logged/master/campagna'">Annulla</button>
