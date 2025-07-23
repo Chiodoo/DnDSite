@@ -10,6 +10,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -52,7 +54,8 @@ public class Personaggio {
     @OneToOne(mappedBy = "personaggio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Image image;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "personaggio_campagna", joinColumns = @JoinColumn(name = "personaggio_id"), inverseJoinColumns = @JoinColumn(name = "campagna_id"))
     private Set<Campagna> campagne = new HashSet<>();
 
     @ManyToOne
