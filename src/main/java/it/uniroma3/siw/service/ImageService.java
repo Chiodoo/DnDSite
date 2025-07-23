@@ -16,5 +16,12 @@ public class ImageService {
         this.imageRepository.save(image);
     }
 
+    public void delete(Image image) {
+        if (image != null) {
+            imageRepository.delete(image);
+        }
+    }
+
     
 }
+ 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,8 +32,8 @@ public class User {
 	private String email;
 
     private LocalDate birth;
-
-	private String imagePath;
+	@OneToOne(mappedBy = "user",  cascade = CascadeType.ALL, fetch =  FetchType.EAGER, orphanRemoval = true)
+	private Image image;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "credentials_id")
@@ -44,7 +45,7 @@ public class User {
 	@OneToMany(mappedBy = "master")
 	private List<Campagna> campagneDaMaster;
 
-    //===============================METODI===========================
+    //===============================METODI=========================== 
 
 	public List<Personaggio> getPersonaggi() {
 		return personaggi;
@@ -62,12 +63,12 @@ public class User {
 		this.campagneDaMaster = campagneDaMaster;
 	}
 
-	public String getImagePath() {
-		return imagePath;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImage(Image newImage) {
+		this.image = newImage;
 	}
 
 	public LocalDate getBirth() {
@@ -153,4 +154,5 @@ public class User {
 			return false;
 		return true;
 	}
+
 }

@@ -1,5 +1,6 @@
 package it.uniroma3.siw.controller.logged.giocatore;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -23,8 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/logged/giocatore")
 public class LoggedGiocatoreController {
 
+    private final UserService userService;
+
     @Autowired
     private CredentialsService credentialsService;
+
+    LoggedGiocatoreController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/giocatoreIndex")
     public String getHomePage() {
@@ -54,13 +63,15 @@ public class LoggedGiocatoreController {
     }
 
     @PostMapping("/account")
-    public String updateAccount(@ModelAttribute("credentials") Credentials updatedCredentials, Model model) {
+    public String updateAccount(@ModelAttribute("credentials") Credentials updatedCredentials,
+                                Model model) {
         Credentials current = credentialsService.getCurrentCredentials();
 
         if (current == null || !updatedCredentials.getId().equals(current.getId())) {
             model.addAttribute("error", "Errore durante l'aggiornamento delle credenziali.");
             return "redirect:/logged/giocatore/account";
         }
+        userService.updateUser(updatedCredentials.getUser());
         credentialsService.updateCredentials(updatedCredentials);
         //riautentica l'utente con le nuove credenziali
         credentialsService.autoLogin(updatedCredentials.getUsername(), updatedCredentials.getPassword());

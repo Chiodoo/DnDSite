@@ -9,12 +9,13 @@
 <body>
     <div class="container">
         <h1>Modifica il tuo Account</h1>
-            <form th:action="@{/logged/master/account}" method="post" th:object="${credentials}">
+            <form th:action="@{/logged/master/account}" method="post" th:object="${credentials}"
+                  enctype="multipart/form-data">
                 <!--ID nascosti-->
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{user.id}"/>
                 <input type="hidden" th:field="*{role}"/>
-                <!--Campi del form-->
+                <!--Campi del form-->   
                 <div class="input-group">
                     <label for="name">Nome:</label>
                     <span><input type="text" id="name" placeholder="name" th:field="*{user.name}" required /></span>
@@ -50,10 +51,6 @@
                     <span><input type="password" id="password" placeholder="password" th:field="*{password}" required /></span>
                     <span th:if="${#fields.hasErrors('password')}" class="error-message">
                         <p th:errors="*{password}">Password non valida</p></span>
-                </div>
-                <div class="input-group">
-                    <label for="image">Immagine Utente</label>
-                    <span><input type="file" name="profileImage" id="image" accept="image/*" /></span>
                 </div>
                 <button type="submit">Salva modifiche</button>
             </form>

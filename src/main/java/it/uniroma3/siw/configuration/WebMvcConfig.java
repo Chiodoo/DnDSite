@@ -1,10 +1,13 @@
 package it.uniroma3.siw.configuration;
 
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+// import org.springframework.web.multipart.commons.CommonsMultipartResolver; // Removed for Spring Boot 3 compatibility
 import org.springframework.lang.NonNull;
+
+
 
 
 /**
@@ -25,4 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             .addResourceHandler("/uploads/**")
             .addResourceLocations("file:uploads/");
     }
+
+
+  
 }

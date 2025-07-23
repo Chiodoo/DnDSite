@@ -16,6 +16,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
 
     @Transactional
     public User getUserById(Long id) {
@@ -39,5 +40,17 @@ public class UserService {
 
     public Optional<User> getByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public void updateUser(User user){
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setName(user.getName());
+        existingUser.setSurname(user.getSurname());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setBirth(user.getBirth());
+
+        // Update other fields as necessary
+        userRepository.save(existingUser);
     }
 }
