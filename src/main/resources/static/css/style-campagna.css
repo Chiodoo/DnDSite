@@ -115,14 +115,15 @@ button:hover{
 }
 .personaggi-section {
     color: white;
-  padding: 2rem 0;
+  gap: 2rem;
+  margin-top: 5rem;
+  flex-wrap: wrap;
 }
 
 .personaggi-flex{
-    display: flex;
-    overflow-x: auto;
-    gap: 1.5rem; /* Spazio tra le card */
-    padding-bottom: 1rem;
+     display: flex;
+    gap: 2rem;
+    flex-wrap: nowrap;
 }
 .personaggi-flex::-webkit-scrollbar{
     height: 6px; /* Altezza della scrollbar */
@@ -132,20 +133,24 @@ button:hover{
     border-radius: 3px; /* Arrotondamento degli angoli della scrollbar */
 }
 .personaggio-card {
-  padding: 10px;
-  width: 150px;
- height: auto;
- 
- transition: trasform 0.3s ease;
+   flex: 0 0 180px; /* larghezza fissa di 180px */
+    height: 250px; /* altezza fissa */
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    overflow: hidden;
+    text-align: center;
 }
 
 
 .personaggio-card img{
     width: 100%;
-    height: auto;
+    height: 140px;
+    object-fit: cover;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
+    margin-bottom: 1rem;
 }
 .personaggio-card img:hover {
   transform: scale(1.05);

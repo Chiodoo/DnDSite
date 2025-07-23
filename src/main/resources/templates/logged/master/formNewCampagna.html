@@ -11,7 +11,8 @@
         <h1>Crea una Nuova Campagna</h1>
         <form th:action="${campagna.id} != null ? @{/logged/master/campagna/{id}(id=${campagna.id})} : @{/logged/master/campagna}" 
             method="POST" 
-            th:object="${campagna}">
+            th:object="${campagna}"
+            enctype="multipart/form-data">
 
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
             <div class="input-group">
@@ -28,8 +29,15 @@
                     <p th:errors="*{descrizione}">Descrizione non valida</p>
                 </span>
             </div>
+            <div class="input-group">
+                <label for="image">Mappa:</label>
+                <span>
+                <input type="file" id="image" name="image" accept="image/*">
+                </span>
+            </div>
             <button type="submit">Crea Campagna</button>
         </form>
         <button onclick="window.location.href='/logged/master/campagna'">Annulla</button>
     </div>
+</body>
 </html>
