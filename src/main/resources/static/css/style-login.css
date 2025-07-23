@@ -127,3 +127,11 @@ a:hover {
 #no-account{
     font-family: "Fondamento", cursive;
 }
+
+.google-github{
+    text-align: center;
+    font-size: 1.5rem;
+}
+.google-github p{
+    font-family: "Fondamento", cursive;
+}

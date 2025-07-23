@@ -10,6 +10,7 @@
     <div class="container">
         <h1>Accedi</h1>
         <div class="form-box">
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
         <form th:action="@{/login}" method="POST">
             <div class="input-group">
                 <label for="username">Username:</label>
@@ -29,6 +30,14 @@
         </form>
 
         <p id="no-account">Non hai un account? <a th:href="@{/register}">Registrati</a></p>
+        </div>
+        <div>
+            
+            <div class="google-github">
+                <p>Oppure registrati con:</p>
+                <a th:href="@{/oauth2/authorization/github}" >Github</a>
+                <a th:href="@{/oauth2/authorization/google}" >Google</a>
+            </div>
         </div>
     </div>
 </body>

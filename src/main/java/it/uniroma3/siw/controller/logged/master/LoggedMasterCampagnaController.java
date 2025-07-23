@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Campagna;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.CampagnaService;
 import jakarta.validation.Valid;
 
@@ -29,12 +31,24 @@ public class LoggedMasterCampagnaController {
 
     @Autowired
     private CampagnaService campagnaService;
+
+    @Autowired
+    private SecurityUtils securityUtils;
     
     @GetMapping("/campagna")
-    public String showMasterCampagne(Model model){
-        model.addAttribute("campagne", campagnaService.findAll());
+    public String showMasterCampagne(Model model, RedirectAttributes redirectAttrs) {
+        User user= securityUtils.getCurrentUser();
+
+        if(user==null){
+            redirectAttrs.addFlashAttribute("errorMessage", "Qualcosa è andato storto");
+            return "redirect:/login";
+        }
+        Iterable<Campagna> campagneUtente = campagnaService.findCampagneMaster(user.getId());
+
+        model.addAttribute("campagne", campagneUtente);
         return "logged/master/masterCampagne";
     }
+
 
     @GetMapping("/campagna/{id}")
     public String getCampagna(@PathVariable Long id, Model model) {
@@ -43,9 +57,14 @@ public class LoggedMasterCampagnaController {
             model.addAttribute("errorMessage", "Campagna non trovata.");
             return "redirect:/logged/giocatore/campagna"; // o pagina 404
         }
+        Long userCorrenteId = securityUtils.getCurrentUser().getId();
         Campagna campagna = optionalCampagna.get();
-        model.addAttribute("campagna", campagna);
+        if(userCorrenteId.equals(campagna.getMaster().getId())){
+            model.addAttribute("campagna", campagna);
         return "logged/master/masterCampagna";
+        }
+        return "redirect:/logged/master/campagna";
+        
     }
 
     @GetMapping("/formNewCampagna")
@@ -65,7 +84,7 @@ public class LoggedMasterCampagnaController {
         return "redirect:/logged/master/campagna";
     }
     @PostMapping("/campagna")
-    public String addCampagna(@Valid@ModelAttribute("campagna") Campagna campagna, 
+    public String addCampagna(@Valid @ModelAttribute("campagna") Campagna campagna, 
                                 BindingResult result,
                                 @RequestParam(value="campagnaImage", required=false) MultipartFile imageFile,
                                 Model model, RedirectAttributes redirectAttrs) throws IOException {
@@ -81,15 +100,12 @@ public class LoggedMasterCampagnaController {
     public String updateCampagna(@PathVariable Long id, 
                                 @ModelAttribute("campagna") Campagna campagna, 
                                 BindingResult result,
-                                @RequestParam(value="image", required =false) MultipartFile imageFile,
+                                @RequestParam(value="campagnaImage", required =false) MultipartFile imageFile,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Errore durante l'aggiornamento della campagna.");
             return "redirect:/logged/master/modificaCampagna"; // o pagina 404
         }
-        campagna.setId(id);
-        campagna.setImage(null);
-
         this.campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
     }

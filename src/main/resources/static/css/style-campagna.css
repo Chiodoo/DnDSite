@@ -13,11 +13,11 @@ body{
     background-position: center;
     background-repeat: no-repeat;
 }
-.background {
-    background-color: rgba(45, 2, 49, 0.4); /* Colore di sfondo con trasparenza */
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Assicura che il background sia dietro gli altri elementi */
+.background{
+  background-color: rgba(45, 2, 49, 0.4);
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 50px;
 }
 .navbar {
   display: flex;
@@ -25,8 +25,8 @@ body{
   align-items: center;
   padding: 0 4rem;
   width: 100%;
-  position: fixed; /* navbar sempre visibile in alto */
-  top: 20px;
+  position: relative;
+  top: -80px; /* aumentato per spostare più in alto */
   left: 0;
   z-index: 1000;
   height: 60px;
@@ -168,4 +168,16 @@ a {
 }
 a:hover {
   color: #ffd700;
+}
+.campagna-image {
+  max-width: 30%;
+  max-height: 30%;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  margin: 2rem 0 2rem 0; /* margine solo sopra e sotto */
+  display: block;
+  margin-left: 0; /* allinea a sinistra */
 }
