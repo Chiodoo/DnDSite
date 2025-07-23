@@ -6,4 +6,5 @@ import it.uniroma3.siw.model.Campagna;
 
 public interface CampagnaRepository extends CrudRepository<Campagna, Long>{
 
+    Iterable<Campagna> findAllByMasterId(Long id);
 }

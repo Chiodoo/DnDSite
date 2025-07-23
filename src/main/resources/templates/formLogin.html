@@ -10,6 +10,7 @@
     <div class="container">
         <h1>Accedi</h1>
         <div class="form-box">
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
         <form th:action="@{/login}" method="POST">
             <div class="input-group">
                 <label for="username">Username:</label>

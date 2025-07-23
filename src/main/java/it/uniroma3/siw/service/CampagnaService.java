@@ -15,6 +15,7 @@ import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Personaggio;
 import it.uniroma3.siw.repository.CampagnaRepository;
 import it.uniroma3.siw.repository.PersonaggioRepository;
+import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.storage.ImageStorageService;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -33,6 +34,9 @@ public class CampagnaService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private SecurityUtils securityUtils;
 
 
     public Campagna save(Campagna campagna) {
@@ -58,6 +62,10 @@ public class CampagnaService {
         return personaggioRepository.findByUserId(userId).stream()
             .flatMap(p -> p.getCampagne().stream())
             .collect(Collectors.toSet());
+    }
+
+    public Iterable<Campagna> findCampagneMaster(Long masterId){
+        return campagnaRepository.findAllByMasterId(masterId);
     }
 
     @Transactional
@@ -90,7 +98,7 @@ public class CampagnaService {
             imageService.save(image); // salva il lato owning
             
         }
-
+        campagna.setMaster(securityUtils.getCurrentUser());
         return this.campagnaRepository.save(campagna);
     }
 

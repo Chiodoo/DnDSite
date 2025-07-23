@@ -25,9 +25,11 @@ body{
   align-items: center;
   padding: 0 4rem;
   width: 100%;
+  position: relative;
+  top: -80px; /* aumentato per spostare più in alto */
   left: 0;
   z-index: 1000;
-  height: 0;
+  height: 60px;
 }
 
 .logo{
