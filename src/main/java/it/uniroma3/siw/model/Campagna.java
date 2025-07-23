@@ -1,6 +1,8 @@
 package it.uniroma3.siw.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,11 +33,7 @@ public class Campagna {
     private List<Nota> note;
 
     @ManyToMany(mappedBy = "campagne")
-    private List<Personaggio> personaggi;
-
-    @OneToMany(cascade={CascadeType.MERGE})
-    @JoinColumn(name = "id_Campagna")
-    private List<Mappa> mappe;
+    private Set<Personaggio> personaggi = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "master_id")
@@ -75,20 +73,12 @@ public class Campagna {
         this.note = note;
     }
 
-    public List<Personaggio> getPersonaggi() {
+    public Set<Personaggio> getPersonaggi() {
         return personaggi;
     }
 
-    public void setPersonaggi(List<Personaggio> personaggi) {
+    public void setPersonaggi(Set<Personaggio> personaggi) {
         this.personaggi = personaggi;
-    }
-
-    public List<Mappa> getMappe() {
-        return mappe;
-    }
-
-    public void setMappe(List<Mappa> mappe) {
-        this.mappe = mappe;
     }
 
     @Override

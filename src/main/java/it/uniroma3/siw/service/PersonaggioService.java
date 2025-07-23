@@ -64,4 +64,8 @@ public class PersonaggioService {
     public List<Personaggio> findbyCampagna(Campagna campagna) {
         return personaggioRepository.findByCampagneContains(campagna);
     }
+
+    public List<Personaggio> findByUserId(Long id) {
+        return personaggioRepository.findByUserId(id);
+    }
 }
