@@ -1,20 +1,17 @@
 package it.uniroma3.siw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
-//import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Version;
 
@@ -56,7 +53,7 @@ public class Personaggio {
     private Image image;
 
     @ManyToMany
-    private List<Campagna> campagne = new ArrayList<>();
+    private Set<Campagna> campagne = new HashSet<>();
 
     @ManyToOne
     private User user;
@@ -120,19 +117,11 @@ public class Personaggio {
         this.descrizione = descrizione;
     }
 
-    /*public Caratteristiche getCaratteristiche() {
-        return caratteristiche;
-    }
-
-    public void setCaratteristiche(Caratteristiche caratteristiche) {
-        this.caratteristiche = caratteristiche;
-    }*/
-
-    public List<Campagna> getCampagne() {
+    public Set<Campagna> getCampagne() {
         return campagne;
     }
 
-    public void setCampagne(List<Campagna> campagne) {
+    public void setCampagne(Set<Campagna> campagne) {
         this.campagne = campagne;
     }
 
