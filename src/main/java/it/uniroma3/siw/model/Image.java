@@ -21,8 +21,11 @@ public class Image {
     @OneToOne
     private User user; // Assuming Image is associated with a User
     
+    @OneToOne
+    private Campagna campagna; // Assuming Image is associated with a Campagna
     
 
+    
     //==========================METHODS=============================================
     public Long getId() {
         return id;
@@ -55,6 +58,15 @@ public class Image {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Campagna getCampagna() {
+        return campagna;
+    }
+
+    public void setCampagna(Campagna campagna) {
+        this.campagna = campagna;
+    }
+
 
     @Override
     public int hashCode() {

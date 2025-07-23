@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Campagna;
 import it.uniroma3.siw.service.CampagnaService;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -61,20 +64,32 @@ public class LoggedMasterCampagnaController {
         return "redirect:/logged/master/campagna";
     }
     @PostMapping("/campagna")
-    public String addCampagna(@ModelAttribute("campagna") Campagna campagna, Model model) {
-        campagnaService.save(campagna);
+    public String addCampagna(@Valid@ModelAttribute("campagna") Campagna campagna, 
+                                BindingResult result,
+                                @RequestParam(value="image", required=false) MultipartFile imageFile,
+                                Model model) throws IOException {
+        if (result.hasErrors()) {
+            model.addAttribute("errorMessage", "Errore durante la creazione della campagna.");
+            return "logged/master/formNewCampagna"; // o pagina 404
+        }
+        campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
     }
+
     @PostMapping("/campagna/{id}")
-    public String updateCampagna(@PathVariable Long id, @ModelAttribute("campagna") Campagna campagna, 
-                                    BindingResult result,
-                                    Model model) throws IOException {
+    public String updateCampagna(@PathVariable Long id, 
+                                @ModelAttribute("campagna") Campagna campagna, 
+                                BindingResult result,
+                                @RequestParam(value="image", required =false) MultipartFile imageFile,
+                                Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Errore durante l'aggiornamento della campagna.");
             return "redirect:/logged/master/modificaCampagna"; // o pagina 404
         }
         campagna.setId(id);
-        campagnaService.save(campagna);
+        campagna.setImage(null);
+
+        this.campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
     }
 

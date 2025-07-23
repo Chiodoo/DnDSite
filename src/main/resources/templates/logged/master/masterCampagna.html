@@ -31,6 +31,12 @@
         <section class="campagna" th:if="${campagna}">
             <h2 th:text="${campagna.nome}">Nome Campagna</h2>
             <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
+            <div th:if="${campagna.image != null and campagna.image.path != null}">
+                <img th:src="@{'/uploads/' + ${campagna.image.path}}" alt="Mappa della campagna" class="campagna-image">
+            </div>
+            <div th:if="${campagna.image == null or campagna.image.path == null}">
+                <img src="/images/default_campagna.jpg" alt="Nessuna mappa disponibile" class="campagna-image">
+            </div>
 
             <span th:if="${campagna}">
                 <a th:href="@{/logged/master/modificaCampagna/{id}(id=${campagna.id})}">Modifica Campagna</a>

@@ -14,6 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.FetchType;
 
 @Entity
 public class Campagna {
@@ -39,7 +41,18 @@ public class Campagna {
     @JoinColumn(name = "master_id")
     private User master;
 
+    @OneToOne(mappedBy = "campagna", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+    private Image image; // Assuming Campagna has an associated Image
+
     //==========================METHODS=============================================
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     public Long getId() {
         return id;
