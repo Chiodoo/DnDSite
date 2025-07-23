@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style-form.css">
+    <title>Nuova Nota</title>
+</head>
+<body>
+    <div class="container">
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+        <h1>Crea una Nuova Nota</h1>
+        <form th:if="${nota.id} == null"
+            th:action="@{/logged/master/campagna/{id}/nota(id=${campagna.id})}"
+            method="POST"
+            th:object="${nota}">
+            
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- campo titolo -->
+            <div class="input-group">
+                <label>Titolo:</label>
+                <span>
+                <input type="text" placeholder="Titolo" th:field="*{titolo}" required />
+                <span>
+            </div>
+
+            <!-- campo descrizione -->
+            <div class="input-group">
+                <label>Descrizione:</label>
+                <span>
+                <textarea placeholder="Descrizione" th:field="*{descrizione}"></textarea>
+                <span>
+            </div>
+
+            <button type="submit">Salva Nota</button>
+        </form>
+        <button th:onclick="'window.location.href=\'/logged/master/campagna/' + ${campagna.id} + '\';'">Annulla</button>
+
+    </div>
+</body>
+</html>

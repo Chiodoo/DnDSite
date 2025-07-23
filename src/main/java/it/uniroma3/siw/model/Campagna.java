@@ -32,7 +32,7 @@ public class Campagna {
 
     @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JoinColumn(name = "id_Campagna")
-    private List<Nota> note;
+    private List<Nota> nota;
 
     @ManyToMany(mappedBy = "campagne")
     private Set<Personaggio> personaggi = new HashSet<>();
@@ -43,8 +43,8 @@ public class Campagna {
 
     @OneToOne(mappedBy = "campagna", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
     private Image image; // Assuming Campagna has an associated Image
-
     //==========================METHODS=============================================
+
 
     public Image getImage() {
         return image;
@@ -78,12 +78,12 @@ public class Campagna {
         this.descrizione = descrizione;
     }
 
-    public List<Nota> getNote() {
-        return note;
+    public List<Nota> getNota() {
+        return nota;
     }
 
-    public void setNote(List<Nota> note) {
-        this.note = note;
+    public void setNota(List<Nota> note) {
+        this.nota = note;
     }
 
     public Set<Personaggio> getPersonaggi() {

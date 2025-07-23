@@ -7,7 +7,7 @@
     <title>Campagna</title>
 </head>
 <body>
- <div class="background">>
+ <div class="background">
     <header class="navbar">
         <div class="logo">
             <img src="/images/logo_DndSite.png" alt="Logo DndSite">
@@ -40,10 +40,34 @@
                 <img src="/images/default_campagna.jpg" alt="Nessuna mappa disponibile" class="campagna-image">
             </div>
 
+            <div th:if="${campagna.nota != null and #lists.size(campagna.nota) > 0}">
+                <h2>Note della Campagna</h2>
+                <div class="note-section">
+                    <div class="nota-card" th:each="nota : ${campagna.nota}">
+                        <h3 th:text="${nota.titolo}">Titolo Nota</h3>
+                        <p th:text="${nota.descrizione}">Contenuto della nota...</p>
+                        <a th:href="@{'/logged/master/campagna/' + ${campagna.id} + '/modificaNota/' + ${nota.id}}">
+                            Modifica
+                        </a>
+                        <a th:href="@{'/logged/master/campagna/' + ${campagna.id} + '/deleteNota/' + ${nota.id}}"
+                        onclick="return confirm('Sei sicuro di voler eliminare questa nota?')">
+                        Elimina
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${campagna.nota == null or #lists.isEmpty(campagna.nota)}">
+                <h3>Note della Campagna</h3>
+                <p>Nessuna nota presente.</p>
+            </div>
+
+
             <span th:if="${campagna}">
                 <a th:href="@{/logged/master/modificaCampagna/{id}(id=${campagna.id})}">Modifica Campagna</a>
             </span>
-            <a th:href="@{/logged/master/deleteCampagna/{id}(id=${campagna.id})}" class="link-button">Elimina Campagna</a>   
+            <a th:href="@{/logged/master/deleteCampagna/{id}(id=${campagna.id})}" class="link-button">Elimina Campagna</a> 
+            <a th:href="@{/logged/master/campagna/{id}/formNewNota(id=${campagna.id})}" class="link-button">Aggiungi una nota</a>
 
             <div class="personaggi-section" th:if="${campagna.personaggi != null and #lists.size(campagna.personaggi)>0}">
                 <h3>Personaggi della Campagna</h3>

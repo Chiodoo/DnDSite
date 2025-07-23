@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Nota {
@@ -19,7 +21,19 @@ public class Nota {
     @Column(length = 3000)
     private String descrizione;
 
+    @ManyToOne
+    @JoinColumn(name = "id_campagna")
+    private Campagna campagna;
+
     //==========================METHODS=============================================
+
+    public Campagna getCampagna() {
+        return campagna;
+    }
+
+    public void setCampagna(Campagna campagna) {
+        this.campagna = campagna;
+    }
 
     public Long getId() {
         return id;

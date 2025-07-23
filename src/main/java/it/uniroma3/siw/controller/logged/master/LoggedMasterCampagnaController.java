@@ -16,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Campagna;
+import it.uniroma3.siw.model.Nota;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.CampagnaService;
+import it.uniroma3.siw.service.NotaService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +36,9 @@ public class LoggedMasterCampagnaController {
 
     @Autowired
     private SecurityUtils securityUtils;
+
+    @Autowired
+    private NotaService notaService;
     
     @GetMapping("/campagna")
     public String showMasterCampagne(Model model, RedirectAttributes redirectAttrs) {
@@ -121,4 +126,108 @@ public class LoggedMasterCampagnaController {
         model.addAttribute("campagna", campagna);
         return "logged/master/modificaCampagna";
     }
+
+
+    @GetMapping("/campagna/{id}/formNewNota")
+    public String getFormNewNota(@PathVariable Long id,
+                                Model model) {
+        Optional<Campagna> optCampagna = campagnaService.findById(id);
+        if (optCampagna.isEmpty()) {
+            return "redirect:/logged/master/campagna";
+        }
+
+        Campagna campagna = optCampagna.get();
+        model.addAttribute("campagna", campagna);
+        model.addAttribute("nota", new Nota());
+        return "logged/master/formNewNota";
+    }
+
+    @PostMapping("campagna/{id}/nota")
+    public String addNota(@PathVariable Long id,
+                            @ModelAttribute("notaDetails") Nota nota,
+                            BindingResult result,
+                            RedirectAttributes redirectAttrs,
+                            Model model) {
+        if (result.hasErrors()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Qualcosa è andato storto durante la creazione della campagna.");
+            return "redirect:/logged/master/formNewNota"; // o pagina 404
+        }
+        Optional<Campagna> optCampagna = campagnaService.findById(id);
+        if(!optCampagna.isPresent()){
+            model.addAttribute("errorMessage", "Campagna non trovata");
+            return "redirect:/logged/master/campagna";
+        }
+        Campagna campagna = optCampagna.get();
+        nota.setId(null);
+        nota.setCampagna(campagna);
+        notaService.save(nota);
+        return "redirect:/logged/master/campagna/" + id;
+    }
+    
+    @PostMapping("campagna/{id}/nota/{notaId}")
+    public String updateNota(@PathVariable Long id,
+                            @PathVariable Long notaId,
+                            @ModelAttribute("nota") Nota nota,
+                            BindingResult result,
+                            RedirectAttributes redirectAttrs,
+                            Model model) {
+
+        if (result.hasErrors()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Errore durante aggiornamento.");
+            return "redirect:/logged/master/campagna/" + id + "/modificaNota/" + notaId;
+        }
+
+        Optional<Nota> optNota = notaService.findById(notaId);
+        Optional<Campagna> optCampagna = campagnaService.findById(id);
+
+        if (optNota.isEmpty() || optCampagna.isEmpty()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Nota o Campagna non trovata.");
+            return "redirect:/logged/master/campagna/" + id;
+        }
+
+        nota.setId(notaId);
+        nota.setCampagna(optCampagna.get()); 
+
+        notaService.save(nota);
+
+        return "redirect:/logged/master/campagna/" + id;
+    }
+
+    @GetMapping("/campagna/{id}/modificaNota/{notaId}")
+    public String getFormModificaNota(@PathVariable Long id,
+                                    @PathVariable Long notaId,
+                                    Model model) {
+        Optional<Campagna> optCampagna = campagnaService.findById(id);
+        Optional<Nota> optNota = notaService.findById(notaId);
+
+        if (optCampagna.isEmpty() || optNota.isEmpty()) {
+            model.addAttribute("errorMessage", "Campagna o nota non trovata.");
+            return "redirect:/logged/master/campagna/" + id;
+        }
+
+        Campagna campagna = optCampagna.get();
+        Nota nota = optNota.get();
+
+        model.addAttribute("campagna", campagna);
+        model.addAttribute("nota", nota);
+        return "logged/master/modificaNota"; // ✔️ template giusto
+    }
+
+    @GetMapping("/campagna/{campagnaId}/deleteNota/{notaId}")
+    public String deleteNota(@PathVariable Long campagnaId,
+                            @PathVariable Long notaId,
+                            RedirectAttributes redirectAttrs) {
+        Optional<Nota> optNota = notaService.findById(notaId);
+
+        if (optNota.isEmpty()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Nota non trovata.");
+            return "redirect:/logged/master/campagna/" + campagnaId;
+        }
+
+        notaService.deleteById(notaId);
+        redirectAttrs.addFlashAttribute("successMessage", "Nota eliminata con successo.");
+
+        return "redirect:/logged/master/campagna/" + campagnaId;
+    }
+
 }

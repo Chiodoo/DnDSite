@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Nota</title>
+    <link rel="stylesheet" href="/css/style-fotm.css">
+</head>
+<body>
+    <div class="container">
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+            <h2>Modifica Nota</h2>
+
+            <form th:action="@{'/logged/master/campagna/' + ${campagna.id} + '/nota/' + ${nota.id}}" 
+                method="post" 
+                th:object="${nota}">
+                <input type="hidden" th:field="*{id}" />
+                <div class="input-group">
+                    <label for="titolo">Titolo:</label>
+                    <span>
+                    <input type="text" id="titolo" th:field="*{titolo}" placeholder="Titolo" required>
+                    </span>
+                </div>
+
+                <divclass="input-group">
+                    <label for="descrizione">Descrizione:</label>
+                    <span>
+                    <textarea placeholder="Descrizione" id="descrizione" th:field="*{descrizione}"></textarea>
+                    </span>
+                </div>
+
+                    <button type="submit">Salva</button>
+                   
+                </div>
+            </form>
+             <a th:href="@{'/logged/master/campagna/' + ${campagna.id}}" class="button-link">Annulla</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>
