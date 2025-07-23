@@ -7,17 +7,14 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.siw.model.Campagna;
-import it.uniroma3.siw.model.Nota;
 import it.uniroma3.siw.model.Personaggio;
 import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.CampagnaService;
@@ -137,7 +134,7 @@ public class LoggedGiocatoreCampagnaController {
         return "logged/giocatore/giocCampagnePartecipate";
     }
     
-    
+
 
     
     
