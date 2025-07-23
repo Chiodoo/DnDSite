@@ -39,7 +39,7 @@ public class Credentials {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+ 
 	public User getUser() {
 		return user;
 	}
@@ -49,7 +49,7 @@ public class Credentials {
 	}
 	
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username; 
 	}
 	
 	public String getPassword() {

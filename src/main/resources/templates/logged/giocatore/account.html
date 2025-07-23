@@ -29,9 +29,9 @@
             <h2>Il tuo Account</h2>
             <p>Username: <span th:text="${credentials.username}">Username</span></p>
             <p>Ruolo: <span th:text="${credentials.role}">Ruolo</span></p>
-            <div th:if="${credentials.user.imagePath}">
+            <div th:if="${credentials.user.image}">
                 <p>Immagine Profilo</p>
-                <img th:src="@{'/uploads/' + ${credentials.user.imagePath}}" alt="Immagine Profilo" class="profile-image" />
+                <img th:src="@{'/uploads/' + ${credentials.user.image.path}}" alt="Immagine Profilo" class="profile-image" />
             </div>
             <p>Nome: <span th:text="${credentials.user.name}">Nome</span></p>
             <p>Cognome: <span th:text="${credentials.user.surname}">Cognome</span></p>

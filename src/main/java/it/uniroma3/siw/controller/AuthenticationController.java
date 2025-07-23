@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ImageService;
 import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.service.storage.ImageStorageService;
 import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
+
+    private final ImageService imageService;
 
 	@Autowired
 	private UserService userService;
@@ -30,6 +34,10 @@ public class AuthenticationController {
 
 	@Autowired
 	private ImageStorageService imageStorageService;
+
+    AuthenticationController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 	
 	@GetMapping(value = "/register") 
 	public String showRegisterForm (Model model) {
@@ -60,10 +68,13 @@ public class AuthenticationController {
         if (profileImage != null && !profileImage.isEmpty()) {
             // salviamo sotto uploads/users/{userId}/…
             String relativePath = imageStorageService.store(profileImage, "users/" + user.getId());
-            user.setImagePath(relativePath);
-            userService.saveUser(user);
+            Image image = new Image();
+            image.setPath(relativePath);
+            user.setImage(image);
+            image.setUser(user);
+            imageService.save(image);
         }
-
+        userService.saveUser(user);
         model.addAttribute("user", user);
         return "redirect:/login";
     }

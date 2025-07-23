@@ -18,7 +18,11 @@ public class Image {
     @OneToOne
     private Personaggio personaggio; 
 
+    @OneToOne
+    private User user; // Assuming Image is associated with a User
     
+    
+
     //==========================METHODS=============================================
     public Long getId() {
         return id;
@@ -28,7 +32,7 @@ public class Image {
         this.id = id;
     }
 
-    public String getPath() {
+    public String getPath() { 
         return path;
     }
 
@@ -44,6 +48,13 @@ public class Image {
         this.personaggio = personaggio;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public int hashCode() {
@@ -69,5 +80,6 @@ public class Image {
             return false;
         return true;
     }
+
 
 }

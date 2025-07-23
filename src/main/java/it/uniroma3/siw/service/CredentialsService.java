@@ -13,13 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.UserRepository;
+import it.uniroma3.siw.service.storage.ImageStorageService;
 
 @Service
 public class CredentialsService {
+
 
     @Autowired
     protected PasswordEncoder passwordEncoder;
@@ -32,6 +35,9 @@ public class CredentialsService {
 
     @Autowired
     protected UserRepository userRepository;
+
+    @Autowired
+    protected ImageStorageService imageStorageService;
 
     @Transactional
     public Credentials getCredentials(Long id) {
@@ -114,7 +120,7 @@ public class CredentialsService {
     }
 
     @Transactional
-    public void updateCredentials(Credentials credentials) {
+    public void updateCredentials(Credentials credentials){
         Credentials existingCredentials = this.getCredentials(credentials.getId());
         if(existingCredentials != null) {
             existingCredentials.setUsername(credentials.getUsername());
@@ -124,11 +130,9 @@ public class CredentialsService {
             }
             existingCredentials.setRole(credentials.getRole());
 
-            //recupera l'utente associato e ricollegalo
-            if(existingCredentials.getUser() != null) {
-                existingCredentials.getUser().setCredentials(existingCredentials);
-            }
+            
             this.credentialsRepository.save(existingCredentials);
+            //userRepository.save(existingCredentials.getUser()); 
         }
     }
 
