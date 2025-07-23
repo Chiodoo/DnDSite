@@ -30,12 +30,9 @@
           <option th:each="p : ${personaggi}" th:value="${p.id}" th:text="${p.nome}">Personaggio</option>
         </select>
       </div>
-
-      <button type="submit">Partecipa</button>
-      
+      <button type="submit">Partecipa</button>  
     </form>
     <button onclick="window.location.href='/logged/giocatore/campagna'">Annulla</button>
   </div>
-
 </body>
 </html>

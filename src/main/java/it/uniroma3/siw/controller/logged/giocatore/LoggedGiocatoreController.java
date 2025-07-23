@@ -112,7 +112,4 @@ public class LoggedGiocatoreController {
         model.addAttribute("error", "Account not found.");
         return "error";
     }
-
-
-
 }

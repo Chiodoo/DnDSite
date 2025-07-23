@@ -229,5 +229,4 @@ public class LoggedMasterCampagnaController {
 
         return "redirect:/logged/master/campagna/" + campagnaId;
     }
-
 }
