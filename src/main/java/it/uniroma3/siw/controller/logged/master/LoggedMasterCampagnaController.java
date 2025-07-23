@@ -64,7 +64,7 @@ public class LoggedMasterCampagnaController {
         return "redirect:/logged/master/campagna";
     }
     @PostMapping("/campagna")
-    public String addCampagna(@Valid@ModelAttribute("campagna") Campagna campagna, 
+    public String addCampagna(@Valid @ModelAttribute("campagna") Campagna campagna, 
                                 BindingResult result,
                                 @RequestParam(value="image", required=false) MultipartFile imageFile,
                                 Model model) throws IOException {

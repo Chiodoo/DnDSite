@@ -13,12 +13,7 @@ body{
     background-position: center;
     background-repeat: no-repeat;
 }
-.background {
-    background-color: rgba(45, 2, 49, 0.4); /* Colore di sfondo con trasparenza */
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Assicura che il background sia dietro gli altri elementi */
-}
+
 .navbar {
   display: flex;
   justify-content: space-between;
