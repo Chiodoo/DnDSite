@@ -133,12 +133,4 @@ public class LoggedGiocatoreCampagnaController {
         model.addAttribute("campagnePartecipate", campagne);
         return "logged/giocatore/giocCampagnePartecipate";
     }
-    
-
-
-    
-    
-   
-
-
 }
