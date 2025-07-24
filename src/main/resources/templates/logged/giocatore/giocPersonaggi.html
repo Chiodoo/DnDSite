@@ -19,7 +19,8 @@
           <li><a href="/logged/giocatore/personaggi">I miei personaggi</a></li>
           <li><a th:href="@{/logged/giocatore/personaggio/new}">Crea un nuovo personaggio</a></li>
           <li><a href="/logged/giocatore/account" th:text="${userDetails.username}">Account</a></li>
-          <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
+          <li>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Logout</a>
             <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             </form>
@@ -34,30 +35,39 @@
                 Qui puoi visualizzare tutti i personaggi creati. Clicca su un personaggio per visualizzarne i dettagli.
             </p>
         </section>     
-    <section class="personaggi">
-        <div class="personaggio-list">
-            <div class="personaggio-card" th:each="personaggio : ${personaggi}">
-                <a th:href="@{'/logged/giocatore/personaggio' + '/'+ ${personaggio.id}}">
-                    <!--Mostra l'immagine se esiste-->
-                    <img th:if="${personaggio.image != null and personaggio.image.path != null}"
-                        th:src="@{'/uploads/' + ${personaggio.image.path}}"
-                        alt="Foto di [[${personaggio.title}]]"
-                        class="personaggio-image">
-                    <!--Immagine placeholder se nessuna immagine è presente-->
-                    <img th:if="${personaggio.image == null or personaggio.image.path == null}"
-                        src="/images/default_personaggio.jpg"
-                        alt="Nessuna immagine disponibile"
-                        class="personaggio-image">
-                    <h2 th:text="${personaggio.nome}">Nome</h2>
-                </a>
+        <section class="personaggi">
+            <!-- campo di ricerca -->
+            <input
+              type="text"
+              class="list-filter"
+              data-target="personaggi"
+              placeholder="Cerca per nome personaggio…"
+            />
+            <!-- container con id per il filtro -->
+            <div class="personaggio-list" id="personaggi">
+                <div class="personaggio-card" th:each="personaggio : ${personaggi}">
+                    <a th:href="@{'/logged/giocatore/personaggio/' + ${personaggio.id}}">
+                        <!--Mostra l'immagine se esiste-->
+                        <img th:if="${personaggio.image != null and personaggio.image.path != null}"
+                             th:src="@{'/uploads/' + ${personaggio.image.path}}"
+                             alt="Foto di [[${personaggio.nome}]]"
+                             class="personaggio-image">
+                        <!--Immagine placeholder se nessuna immagine è presente-->
+                        <img th:if="${personaggio.image == null or personaggio.image.path == null}"
+                             src="/images/default_personaggio.jpg"
+                             alt="Nessuna immagine disponibile"
+                             class="personaggio-image">
+                        <h2 th:text="${personaggio.nome}">Nome</h2>
+                    </a>
+                </div>
             </div>
-        </div>
-
-        <div id="no-personaggio" th:if="${personaggi.isEmpty()}">
-            <p>Nessun personaggio trovato.</p>
-        </div>
-    </section>
+            <div id="no-personaggio" th:if="${personaggi.isEmpty()}">
+                <p>Nessun personaggio trovato.</p>
+            </div>
+        </section>
     </main>
 </div>
+
+<script src="/js/filterList.js"></script>
 </body>
 </html>
