@@ -30,14 +30,15 @@
         <section class="description">
             <h1>Lista delle Campagne</h1>
         </section>
-        <section class="campagne">
-            <!-- campo di ricerca -->
-            <input
+        <input
               type="text"
               class="list-filter"
               data-target="campagne"
               placeholder="Cerca per nome campagna…"
             />
+        <section class="campagne">
+            <!-- campo di ricerca -->
+            
             <!-- container con id per il filtro -->
             <div class="campagna-list" id="campagne">
                 <div class="campagna-card" th:each="campagna : ${campagne}">

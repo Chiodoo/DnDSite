@@ -35,14 +35,14 @@
                 Qui puoi visualizzare tutti i personaggi creati. Clicca su un personaggio per visualizzarne i dettagli.
             </p>
         </section>     
-        <section class="personaggi">
-            <!-- campo di ricerca -->
+         <!-- campo di ricerca -->
             <input
               type="text"
               class="list-filter"
               data-target="personaggi"
               placeholder="Cerca per nome personaggio…"
             />
+        <section class="personaggi">
             <!-- container con id per il filtro -->
             <div class="personaggio-list" id="personaggi">
                 <div class="personaggio-card" th:each="personaggio : ${personaggi}">

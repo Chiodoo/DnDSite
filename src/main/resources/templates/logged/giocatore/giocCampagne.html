@@ -37,14 +37,15 @@
                 Crea una nuova campagna per il tuo gruppo di gioco. Compila i campi richiesti e salva la tua campagna.
             </p>
         </section>
-        <section class="campagne">
-            <!-- campo di ricerca -->
+        <!-- campo di ricerca -->
             <input
               type="text"
               class="list-filter"
               data-target="campagne"
               placeholder="Cerca per nome campagna…"
             />
+        <section class="campagne">
+            
             <div class="campagna-list" id="campagne">
                 <div class="campagna-card" th:each="campagna : ${campagne}">
                     <a th:href="@{'/logged/giocatore/campagna/' + ${campagna.id}}">

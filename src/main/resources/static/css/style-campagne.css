@@ -159,3 +159,23 @@ a:hover {
   border-radius: 10px;
   text-align: center;
 }
+.list-filter {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 20px;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-family: 'Fondamento', cursive;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  border-radius: 25px;
+  backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+}
+
+.list-filter::placeholder {
+  color: rgba(255, 255, 255, 0.575);
+  font-style: italic;
+}
+
