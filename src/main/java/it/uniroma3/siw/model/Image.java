@@ -19,10 +19,10 @@ public class Image {
     private Personaggio personaggio; 
 
     @OneToOne
-    private User user; // Assuming Image is associated with a User
-    
+    private User user; // Assumendo che l'immagine sia associata a un User
+
     @OneToOne
-    private Campagna campagna; // Assuming Image is associated with a Campagna
+    private Campagna campagna; // Assumendo che l'immagine sia associata a una Campagna
     
 
     

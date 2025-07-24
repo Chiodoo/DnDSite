@@ -38,28 +38,36 @@
             </p>
         </section>
         <section class="campagne">
-        <div class="campagna-list">
-            <div class="campagna-card" th:each="campagna : ${campagne}">
-                <a th:href="@{'/logged/giocatore/campagna/' + ${campagna.id}}">
-                    <h2 th:text="${campagna.nome}">Nome Campagna</h2>
-                    <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
-                </a>
-
-                <!-- Controllo partecipazione -->
-                <div th:if="${#lists.contains(campagnePartecipate, campagna)}">
-                    <span class="disabled">Hai già partecipato</span>
-                </div>
-                <div th:unless="${#lists.contains(campagnePartecipate, campagna)}">
-                    <a th:href="@{'/logged/giocatore/partecipaCampagna/' + ${campagna.id}}">Partecipa a questa campagna</a>
+            <!-- campo di ricerca -->
+            <input
+              type="text"
+              class="list-filter"
+              data-target="campagne"
+              placeholder="Cerca per nome campagna…"
+            />
+            <div class="campagna-list" id="campagne">
+                <div class="campagna-card" th:each="campagna : ${campagne}">
+                    <a th:href="@{'/logged/giocatore/campagna/' + ${campagna.id}}">
+                        <h2 th:text="${campagna.nome}">Nome Campagna</h2>
+                        <p th:text="${campagna.descrizione}">Descrizione della campagna...</p>
+                    </a>
+    
+                    <!-- Controllo partecipazione -->
+                    <div th:if="${#lists.contains(campagnePartecipate, campagna)}">
+                        <span class="disabled">Hai già partecipato</span>
+                    </div>
+                    <div th:unless="${#lists.contains(campagnePartecipate, campagna)}">
+                        <a th:href="@{'/logged/giocatore/partecipaCampagna/' + ${campagna.id}}">Partecipa a questa campagna</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="no-campagna" th:if="${campagne.isEmpty()}">
-            <p>Nessuna campagna trovata.</p>
-        </div>
+            <div id="no-campagna" th:if="${campagne.isEmpty()}">
+                <p>Nessuna campagna trovata.</p>
+            </div>
         </section>
     </div>
 </div>
-</body> 
 
+<script src="/js/filterList.js"></script>
+</body>
 </html>

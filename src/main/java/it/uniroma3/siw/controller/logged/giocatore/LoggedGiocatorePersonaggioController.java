@@ -155,5 +155,4 @@ public class LoggedGiocatorePersonaggioController {
         personaggioService.deleteById(id);
         return "redirect:/logged/giocatore/personaggi";
     }
-
 }

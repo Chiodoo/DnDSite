@@ -27,6 +27,7 @@
     </header>
     <main>
         <section class="account">
+            <div th:if="${errorMessage}" class="alert" role="alert" th:text="${errorMessage}"></div>
             <h2>Il tuo Account</h2>
             <p>Username: <span th:text="${credentials.username}">Username</span></p>
             <p>Ruolo: <span th:text="${credentials.role}">Ruolo</span></p>

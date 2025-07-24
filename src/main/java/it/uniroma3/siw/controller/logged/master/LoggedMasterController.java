@@ -7,9 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
+
+import it.uniroma3.siw.controller.CurrentUserDTO;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.security.SecurityUtils;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +34,9 @@ public class LoggedMasterController {
     @Autowired
     private CredentialsService credentialsService;
 
+    @Autowired
+    private SecurityUtils securityUtils;
+
     LoggedMasterController(UserService userService) {
         this.userService = userService;
     }
@@ -41,7 +48,7 @@ public class LoggedMasterController {
     
     @GetMapping("/account")
     public String getAccount(Model model) {
-        Credentials credentials = credentialsService.getCurrentCredentials();
+         Credentials credentials = credentialsService.findByUserId(securityUtils.getCurrentUser().getId()).orElse(null);
         if (credentials == null) {
             return "redirect:/logged/master/masterIndex";
         }
@@ -51,15 +58,21 @@ public class LoggedMasterController {
     }
 
     @GetMapping("/modificaAccount")
-    public String getModificaAccount(Model model) {
-        Credentials credentials = credentialsService.getCurrentCredentials();
+    public String getModificaAccount(Model model, RedirectAttributes redirectAttrs, @ModelAttribute("userDetails") CurrentUserDTO currentUser) {
+         Credentials credentials = credentialsService.findByUserId(securityUtils.getCurrentUser().getId()).orElse(null);
         if (credentials == null) {
             return "redirect:/logged/master/masterIndex";
         }
 
         if (credentials.getUser() == null) {
         credentials.setUser(new User());
-    }
+        }
+
+        if (currentUser != null && currentUser.isOAuth2()) {
+            redirectAttrs.addFlashAttribute("errorMessage", "Non puoi modificare le credenziali di un account OAuth2.");
+            return "redirect:/logged/master/account";
+        }
+    
         model.addAttribute("credentials", credentials);
         return "/logged/master/modificaAccount";
     }
@@ -102,5 +115,4 @@ public class LoggedMasterController {
         model.addAttribute("error", "Account not found.");
         return "error";
     }
-    
 }

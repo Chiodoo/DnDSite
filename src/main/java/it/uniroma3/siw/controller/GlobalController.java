@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,25 +12,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class GlobalController {
 
-    @ModelAttribute("userDetails")
-    public CurrentUserDTO getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+@ModelAttribute("userDetails")
+public CurrentUserDTO getUser() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            Object principal = authentication.getPrincipal();
-
-            if (principal instanceof UserDetails userDetails) {
-                return new CurrentUserDTO(userDetails.getUsername()); // puoi recuperare isAdmin dal DB
-            }
-
-            if (principal instanceof DefaultOAuth2User oauthUser) {
-                String username = extractUsername(oauthUser);
-                return new CurrentUserDTO(username);
-            }
-        }
-
+    if (auth instanceof AnonymousAuthenticationToken || auth == null) {
         return null;
     }
+
+    // 1) Controllo specifico per OAuth2
+    if (auth instanceof OAuth2AuthenticationToken oauthToken) {
+        DefaultOAuth2User oauthUser = (DefaultOAuth2User) oauthToken.getPrincipal();
+        String username = extractUsername(oauthUser);
+        return new CurrentUserDTO(username, true);
+    }
+
+    // 2) Tutti gli altri (form‐login, DaoAuthenticationProvider, ecc.)
+    Object principal = auth.getPrincipal();
+    if (principal instanceof UserDetails ud) {
+        return new CurrentUserDTO(ud.getUsername(), false);
+    }
+
+    return null;
+}
 
     private String extractUsername(DefaultOAuth2User oauthUser) {
     // Provo a prendere username in base a chi è il provider

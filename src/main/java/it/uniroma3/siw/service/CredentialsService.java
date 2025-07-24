@@ -131,8 +131,7 @@ public class CredentialsService {
             existingCredentials.setRole(credentials.getRole());
 
             
-            this.credentialsRepository.save(existingCredentials);
-            //userRepository.save(existingCredentials.getUser()); 
+            this.credentialsRepository.save(existingCredentials); 
         }
     }
 
