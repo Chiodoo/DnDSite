@@ -3,10 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById(input.dataset.target);
     if (!container) return;
 
-    const items = Array.from(container.querySelectorAll('.campagna-card')).map(el => ({
+    // prendiamo tutti gli elementi "card" come figli diretti del container
+    const cards = Array.from(container.children).filter(el => el.nodeType === 1);
+    const items = cards.map(el => ({
       element: el,
-      text: el.querySelector('h2').textContent.trim().toLowerCase()
+      // cercare sempre dentro il primo <h2>
+      text: (el.querySelector('h2')?.textContent || '').trim().toLowerCase()
     }));
+
+    // assumiamo che il div di "no-results" sia il fratello immediatamente dopo il container
+    const noMsg = container.nextElementSibling;
 
     input.addEventListener('input', () => {
       const filtro = input.value.trim().toLowerCase();
@@ -18,8 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (show) anyVisible = true;
       });
 
-      const noMsg = document.getElementById('no-campagna');
-      if (noMsg) noMsg.style.display = anyVisible ? 'none' : '';
+      // mostra/nascondi il messaggio "nessun elemento trovato"
+      if (noMsg && noMsg.nodeType === 1) {
+        noMsg.style.display = anyVisible ? 'none' : '';
+      }
     });
   });
 });
