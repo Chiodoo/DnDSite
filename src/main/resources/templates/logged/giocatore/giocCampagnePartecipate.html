@@ -44,14 +44,15 @@
         <a href="/logged/giocatore/campagna">Partecipa ad una nuova campagna</a>
       </p>
     </section>
-    <section class="campagne">
-      <!-- campo di ricerca -->
+    <!-- campo di ricerca -->
       <input
         type="text"
         class="list-filter"
         data-target="campagnePartecipate"
         placeholder="Cerca per nome campagna…"
       />
+    <section class="campagne">
+      
       <!-- container con id uguale al data-target -->
       <div class="campagna-list" id="campagnePartecipate">
         <div class="campagna-card" th:each="campagna : ${campagnePartecipate}">
