@@ -23,7 +23,6 @@ public class Credentials {
 	private String password;
 	private String role;
 
-	// RELAZIONE esplicita verso User, senza cascade persist
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;

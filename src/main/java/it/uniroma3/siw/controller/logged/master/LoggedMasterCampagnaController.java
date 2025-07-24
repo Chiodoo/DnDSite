@@ -60,7 +60,7 @@ public class LoggedMasterCampagnaController {
         Optional<Campagna> optionalCampagna = campagnaService.findById(id);
         if (!optionalCampagna.isPresent()) {
             model.addAttribute("errorMessage", "Campagna non trovata.");
-            return "redirect:/logged/giocatore/campagna"; // o pagina 404
+            return "redirect:/logged/giocatore/campagna"; 
         }
         Long userCorrenteId = securityUtils.getCurrentUser().getId();
         Campagna campagna = optionalCampagna.get();
@@ -83,7 +83,7 @@ public class LoggedMasterCampagnaController {
         Optional<Campagna> campagnaOpt = campagnaService.findById(id);
         if (!campagnaOpt.isPresent()) {
             model.addAttribute("errorMessage", "Campagna non trovata.");
-            return "redirect:/logged/master/campagna"; // o pagina 404
+            return "redirect:/logged/master/campagna";
         }
         campagnaService.deleteById(id);
         return "redirect:/logged/master/campagna";
@@ -95,7 +95,7 @@ public class LoggedMasterCampagnaController {
                                 Model model, RedirectAttributes redirectAttrs) throws IOException {
         if (result.hasErrors()) {
             redirectAttrs.addFlashAttribute("errorMessage", "Qualcosa è andato storto durante la creazione della campagna.");
-            return "redirect:/logged/master/formNewCampagna"; // o pagina 404
+            return "redirect:/logged/master/formNewCampagna";
         }
         campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
@@ -109,7 +109,7 @@ public class LoggedMasterCampagnaController {
                                 Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Errore durante l'aggiornamento della campagna.");
-            return "redirect:/logged/master/modificaCampagna"; // o pagina 404
+            return "redirect:/logged/master/modificaCampagna"; 
         }
         this.campagnaService.saveWithImage(campagna, imageFile);
         return "redirect:/logged/master/campagna";
@@ -120,7 +120,7 @@ public class LoggedMasterCampagnaController {
         Optional<Campagna> optionalCampagna = campagnaService.findById(id);
         if (!optionalCampagna.isPresent()) {
             model.addAttribute("errorMessage", "Campagna non trovata.");
-            return "redirect:/logged/master/campagna"; // o pagina 404
+            return "redirect:/logged/master/campagna"; 
         }
         Campagna campagna = optionalCampagna.get();
         model.addAttribute("campagna", campagna);
@@ -150,7 +150,7 @@ public class LoggedMasterCampagnaController {
                             Model model) {
         if (result.hasErrors()) {
             redirectAttrs.addFlashAttribute("errorMessage", "Qualcosa è andato storto durante la creazione della campagna.");
-            return "redirect:/logged/master/formNewNota"; // o pagina 404
+            return "redirect:/logged/master/formNewNota"; 
         }
         Optional<Campagna> optCampagna = campagnaService.findById(id);
         if(!optCampagna.isPresent()){
@@ -210,7 +210,7 @@ public class LoggedMasterCampagnaController {
 
         model.addAttribute("campagna", campagna);
         model.addAttribute("nota", nota);
-        return "logged/master/modificaNota"; // ✔️ template giusto
+        return "logged/master/modificaNota"; 
     }
 
     @GetMapping("/campagna/{campagnaId}/deleteNota/{notaId}")

@@ -33,7 +33,7 @@ public class LoggedGiocatorePersonaggioController {
     @Autowired
     private SecurityUtils securityUtils;
 
-    // LIST: mostra tutti i personaggi dell’utente
+
     @GetMapping("/personaggi")
     public String showUserPersonaggi(Model model) {
         User user = securityUtils.getCurrentUser();
@@ -42,7 +42,7 @@ public class LoggedGiocatorePersonaggioController {
         return "logged/giocatore/giocPersonaggi";
     }
 
-    // CREATE FORM: mostra il form vuoto
+    
     @GetMapping("/personaggio/new")
     public String getFormNewPersonaggio(Model model,
                                         @ModelAttribute("errorMessage") String errorMessage) {
@@ -51,7 +51,7 @@ public class LoggedGiocatorePersonaggioController {
         return "logged/giocatore/formNewPersonaggio";
     }
 
-    // CREATE ACTION: salva il nuovo personaggio
+    
     @PostMapping("/personaggio/new")
     public String addPersonaggio(@ModelAttribute("personaggio") Personaggio personaggio,
                                  @RequestParam("personaggioImage") MultipartFile file,
@@ -66,7 +66,7 @@ public class LoggedGiocatorePersonaggioController {
         return "redirect:/logged/giocatore/personaggi";
     }
 
-    // VIEW: mostra i dettagli di un singolo personaggio
+    
     @GetMapping("/personaggio/{id}")
     public String viewPersonaggio(@PathVariable Long id,
                                   Model model,
@@ -95,7 +95,7 @@ public class LoggedGiocatorePersonaggioController {
         return "logged/giocatore/giocPersonaggio";
     }
     
-    // EDIT FORM: mostra il form pre‐popolato
+    
     @GetMapping("/personaggio/{id}/edit")
     public String editPersonaggio(@PathVariable Long id,
                                   Model model,
@@ -109,7 +109,7 @@ public class LoggedGiocatorePersonaggioController {
         return "logged/giocatore/modificaPersonaggio";
     }
 
-    // UPDATE ACTION: salva le modifiche
+    
     @PostMapping("/personaggio/{id}/edit")
     public String updatePersonaggio(@PathVariable Long id,
                                     @ModelAttribute("personaggio") Personaggio personaggio,
@@ -135,7 +135,7 @@ public class LoggedGiocatorePersonaggioController {
         return "redirect:/logged/giocatore/personaggi";
     }
 
-    // DELETE: rimuove personaggio + file immagine
+    
     @GetMapping("/personaggio/{id}/delete")
     public String deletePersonaggio(@PathVariable Long id,
                                     RedirectAttributes redirectAttrs) {

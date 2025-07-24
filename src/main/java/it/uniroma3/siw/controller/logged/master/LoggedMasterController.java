@@ -110,7 +110,7 @@ public class LoggedMasterController {
                 new SecurityContextLogoutHandler().logout(request, response, auth);
             }
 
-            return "redirect:/"; // oppure una pagina di conferma
+            return "redirect:/"; 
         }
         model.addAttribute("error", "Account not found.");
         return "error";

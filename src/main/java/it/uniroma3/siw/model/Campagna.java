@@ -42,7 +42,7 @@ public class Campagna {
     private User master;
 
     @OneToOne(mappedBy = "campagna", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
-    private Image image; // Assuming Campagna has an associated Image
+    private Image image; 
     //==========================METHODS=============================================
 
 

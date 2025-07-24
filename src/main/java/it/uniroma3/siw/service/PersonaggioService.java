@@ -58,7 +58,7 @@ public class PersonaggioService {
             personaggio.setImage(image);     
         }
 
-        // Salva autore con immagine associata
+        // Salva personaggio con immagine associata
         return this.personaggioRepository.save(personaggio);
     }
     public List<Personaggio> findbyCampagna(Campagna campagna) {

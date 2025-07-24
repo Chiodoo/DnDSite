@@ -32,7 +32,7 @@ public class LoggedMasterPersoanggioController {
         Optional<Personaggio> optionalPersonaggio = personaggioService.findById(id);
         if (!optionalPersonaggio.isPresent()) {
             model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/logged/master/personaggio"; // o pagina 404
+            return "redirect:/logged/master/personaggio"; 
         }
         Personaggio personaggio = optionalPersonaggio.get();
         model.addAttribute("personaggio", personaggio);
@@ -47,7 +47,7 @@ public class LoggedMasterPersoanggioController {
         Optional<Personaggio> optionalPersonaggio = personaggioService.findById(personaggioId);
         if (!optionalPersonaggio.isPresent()) {
             model.addAttribute("errorMessage", "Personaggio non trovato.");
-            return "redirect:/logged/master/campagna/" + id; // o pagina 404
+            return "redirect:/logged/master/campagna/" + id; 
         }
         Personaggio personaggio = optionalPersonaggio.get();
         model.addAttribute("personaggio", personaggio);

@@ -95,7 +95,7 @@ public class CampagnaService {
             image.setPath(path);
             image.setCampagna(campagna);
             campagna.setImage(image); 
-            imageService.save(image); // salva il lato owning
+            imageService.save(image);
             
         }
         campagna.setMaster(securityUtils.getCurrentUser());
