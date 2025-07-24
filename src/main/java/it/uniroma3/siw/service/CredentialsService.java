@@ -67,11 +67,6 @@ public class CredentialsService {
         return credentialsRepository.findByUsername(username);
     }
 
-/**
-     * Salva (o aggiorna) delle Credentials.
-     * - Se non è già presente un ruolo, imposta DEFAULT_ROLE.
-     * - Se la password non è già in BCrypt, la codifica.
-     */
     @Transactional
     public Credentials saveCredentials(Credentials credentials) {
         // 1) Ruolo
