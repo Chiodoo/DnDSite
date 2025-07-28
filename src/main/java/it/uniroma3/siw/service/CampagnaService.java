@@ -58,7 +58,7 @@ public class CampagnaService {
     /**
      * Restituisce tutte le campagne in cui l'utente ha almeno un personaggio.
      */
-    public Set<Campagna> findCampagneByUserId(Long userId) {
+    public Set<Campagna> findCampagneByGiocatoreUserId(Long userId) {
         return personaggioRepository.findByUserId(userId).stream()
             .flatMap(p -> p.getCampagne().stream())
             .collect(Collectors.toSet());
