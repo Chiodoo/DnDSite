@@ -46,7 +46,7 @@ public class LoggedGiocatoreCampagnaController {
         model.addAttribute("campagne", campagnaService.findAll());
 
         // Campagne a cui partecipa il giocatore
-        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByUserId(userId);
+        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByGiocatoreUserId(userId);
         model.addAttribute("campagnePartecipate", campagnePartecipate);
 
         return "logged/giocatore/giocCampagne";
@@ -85,7 +85,7 @@ public class LoggedGiocatoreCampagnaController {
         Campagna campagna = optionalCampagna.get();
 
         // 3. Controllo: partecipa già?
-        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByUserId(userId);
+        Set<Campagna> campagnePartecipate = campagnaService.findCampagneByGiocatoreUserId(userId);
         if (campagnePartecipate.contains(campagna)) {
             redirectAttrs.addFlashAttribute("infoMessage", "Hai già aderito a questa campagna.");
             return "redirect:/logged/giocatore/campagna";
@@ -129,7 +129,7 @@ public class LoggedGiocatoreCampagnaController {
             return "redirect:/logged/giocatore/personaggio/new";
         }
 
-        Set<Campagna> campagne = campagnaService.findCampagneByUserId(userId);
+        Set<Campagna> campagne = campagnaService.findCampagneByGiocatoreUserId(userId);
         model.addAttribute("campagnePartecipate", campagne);
         return "logged/giocatore/giocCampagnePartecipate";
     }
